@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jp.ac.iwatepu.soner.gui.TaggingController">
+   <children>
+      <Label layoutX="24.0" layoutY="24.0" prefHeight="25.0" prefWidth="300.0" text="Tagging (3/4)">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnContinue" layoutX="496.0" layoutY="357.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="73.0" text="Continue" />
+      <Button fx:id="btnYes" layoutX="216.0" layoutY="321.0" mnemonicParsing="false" onAction="#btnYesClick" prefHeight="29.0" prefWidth="56.0" text="Yes" />
+      <Button fx:id="btnNo" layoutX="302.0" layoutY="321.0" mnemonicParsing="false" onAction="#btnNoClick" prefHeight="29.0" prefWidth="56.0" text="No" />
+      <ScrollPane fx:id="spAttributes" layoutX="24.0" layoutY="55.0" prefHeight="248.0" prefWidth="542.0">
+         <content>
+            <GridPane fx:id="gpContent" prefHeight="445.0" prefWidth="524.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
+      <Label layoutX="24.0" layoutY="328.0" text="Are these people synonyms?" />
+   </children>
+</Pane>
