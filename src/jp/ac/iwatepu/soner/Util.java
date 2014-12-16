@@ -129,7 +129,7 @@ public class Util {
 		Properties prop = new Properties();			
 		try {
 	        //load a properties file
-			prop.load(new FileInputStream("Parsing.properties"));
+			prop.load(new FileInputStream("SoNeR.properties"));
 	
             //get the property value and print it out
 			inputDirName = prop.getProperty("input_dir");
