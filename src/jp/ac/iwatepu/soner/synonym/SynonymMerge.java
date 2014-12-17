@@ -111,10 +111,10 @@ public class SynonymMerge {
 		int[] mapping = run();
 		for (int i = 0; i < knownPeople.length; i += 2) {
 			if (knownPeople[i] != mapping[knownPeople[i]] ||
-				knownPeople[i + 1] != mapping[knownPeople[i + 1]]) {
-		    }
-			knownPeople[i] = mapping[knownPeople[i]];
-			knownPeople[i + 1] = mapping[knownPeople[i + 1]];
+				knownPeople[i + 1] != mapping[knownPeople[i + 1]]) {		    
+				knownPeople[i] = mapping[knownPeople[i]];
+				knownPeople[i + 1] = mapping[knownPeople[i + 1]];
+			}
 		}
 	}
 }

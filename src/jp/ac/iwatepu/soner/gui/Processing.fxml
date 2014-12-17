@@ -16,7 +16,6 @@
       </Label>
       <Label layoutX="24.0" layoutY="68.0" prefHeight="29.0" prefWidth="135.0" text="Status:" />
       <Button fx:id="btnContinue" disable="true" layoutX="496.0" layoutY="357.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="73.0" text="Continue" />
-      <TextArea fx:id="taOutput" editable="false" layoutX="24.0" layoutY="150.0" prefHeight="199.0" prefWidth="545.0" />
-      <Button fx:id="btnExportGraph" disable="true" layoutX="371.0" layoutY="357.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="109.0" text="Export graph" onAction="#btnExportGraphClick"/>
+      <TextArea fx:id="taOutput" editable="false" layoutX="24.0" layoutY="150.0" prefHeight="199.0" prefWidth="545.0" />      
    </children>
 </Pane>

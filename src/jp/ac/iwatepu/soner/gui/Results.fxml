@@ -34,7 +34,7 @@
         </tabs>
       </TabPane>
       <Separator layoutX="14.0" layoutY="290.0" prefHeight="4.0" prefWidth="558.0" />
-      <TableView fx:id="tblComparison" layoutX="6.0" layoutY="294.0" prefHeight="229.0" prefWidth="558.0">
+      <TableView fx:id="tblComparison" layoutX="11.0" layoutY="341.0" prefHeight="100.0" prefWidth="558.0">
         <columns>
           <TableColumn prefWidth="138.0" text="Synonym application">
 	          <cellValueFactory><PropertyValueFactory property="comparisonType" />
@@ -78,6 +78,12 @@
 					<String fx:value="Both" />
 				</FXCollections>
 			</items>
-		</ComboBox>
+	</ComboBox>
+	<Button fx:id="btnExportGraph" layoutX="455.0" layoutY="498.0" mnemonicParsing="false" onAction="#btnExportGraphClick" prefHeight="29.0" prefWidth="109.0" text="Export graph" />
+      <Label layoutX="14.0" layoutY="309.0" prefHeight="19.0" prefWidth="134.0" text="Node difference">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

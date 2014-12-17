@@ -13,11 +13,12 @@ public class PoolThread extends Thread {
 		while (!isStopped()) {
 			try{
 				Runnable runnable = (Runnable) threadPool.take();
-				runnable.run();
-				threadPool.done();
+				runnable.run();				
 			} catch(Exception e){
 				//log or otherwise report exception,
 				//but keep pool thread alive.
+			} finally {
+				threadPool.done();
 			}
 		}
 	}

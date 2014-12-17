@@ -23,9 +23,16 @@ import jp.ac.iwatepu.soner.ranking.Person;
 import jp.ac.iwatepu.soner.synonym.SynonymMerge;
 
 public class GexfGraphGenerator {
+	File outputFile;
 	
+	
+	public GexfGraphGenerator(File outputFile) {
+		super();
+		this.outputFile = outputFile;
+	}
+
 	public static void main(String[] args) {
-		GexfGraphGenerator gephiVisualizer = new GexfGraphGenerator();
+		GexfGraphGenerator gephiVisualizer = new GexfGraphGenerator(new File("static_graph_sample.gexf"));
 		gephiVisualizer.run();
 	}
 	
@@ -66,7 +73,7 @@ public class GexfGraphGenerator {
 		}
 		
 		System.out.println("Merging synonyms...");
-		SynonymMerge synMerge = new SynonymMerge(true, true);
+		SynonymMerge synMerge = new SynonymMerge(true, false);
 		try {
 			synMerge.applySynonymsToKnownRelationships(knows);
 		} catch (Exception e1) {
@@ -85,13 +92,12 @@ public class GexfGraphGenerator {
 		}
 
 
-		StaxGraphWriter graphWriter = new StaxGraphWriter();
-		File f = new File("static_graph_sample.gexf");
+		StaxGraphWriter graphWriter = new StaxGraphWriter();		
 		Writer out;
 		try {
-			out =  new FileWriter(f, false);
+			out =  new FileWriter(outputFile, false);
 			graphWriter.writeToStream(gexf, out, "UTF-8");
-			System.out.println(f.getAbsolutePath());
+			System.out.println(outputFile.getAbsolutePath());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -35,6 +35,11 @@ public class PageRank {
 			//update pageRank vectors
 			for (int i = 0; i < graphSize; i++) { 			
 				ranks[i] = tmpRanks[i];
+				if (ranks[i] != 0) {
+					@SuppressWarnings("unused")
+					int x = 5;
+			//		System.out.println(x);
+				}
 				tmpRanks[i] = initialPR;
 			}
 			

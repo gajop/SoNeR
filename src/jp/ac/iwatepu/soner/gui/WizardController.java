@@ -19,6 +19,15 @@ public class WizardController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		tfURL.setText(Util.getInstance().getCrawlerStartURL());
+		tfAmount.setText(String.valueOf(Util.getInstance().getCrawlerMaxPages()));
+		tfOutputFolder.setText(String.valueOf(Util.getInstance().getInputDirName()));
+		tfDatabaseURL.setText(Util.getInstance().getDbURL());
+		tfDatabaseUsername.setText(Util.getInstance().getDbUser());
+		tfDatabasePassword.setText(Util.getInstance().getDbPassword());
+		tfDatabaseDriver.setText(Util.getInstance().getDbDriver());
+		
+		cmbStartingStep.getSelectionModel().select(0);
 		spAdvanced.visibleProperty().bind(btnAdvanced.selectedProperty());		
 	}
 	
@@ -36,6 +45,7 @@ public class WizardController implements Initializable {
 		Util.getInstance().setDbURL(tfDatabaseURL.getText());
 		Util.getInstance().setDbUser(tfDatabaseUsername.getText());
 		Util.getInstance().setDbPassword(tfDatabasePassword.getText());
+		Util.getInstance().setDbDriver(tfDatabaseDriver.getText());
 		WizardApplication.getInstance().setAutomaticNextStep(cbAutomaticNextStep.isSelected());
 		
 		try {

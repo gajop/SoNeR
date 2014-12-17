@@ -34,6 +34,7 @@ public class FOAFCrawler {
 	List<String> toVisit = new LinkedList<String>();
 	File outputDir = new File(Util.getInstance().getInputDirName());
 	int processedNum = 0;
+	int erroredNum = 0;
 	int MAX_THREADS = 10;
 	int MAX_TASKS = 20;
 
@@ -46,6 +47,12 @@ public class FOAFCrawler {
 	public void downloadedPage(int numDownloaded) {		
 	}
 	
+	
+	public int getErroredNum() {
+		return erroredNum;
+	}
+
+
 	public void run() {
 		if (outputDir.exists() && !outputDir.isDirectory()) {
 			System.err.println("Output path is not a folder. Exiting");
@@ -165,13 +172,14 @@ class ProcessingJob implements Runnable {
 		try {
 			processPage(this.foafPageURL, this.writeToFile);
 			shared.processedNum++;
-			shared.downloadedPage(shared.visited.size());
+			shared.downloadedPage(shared.visited.size());			
 
 			if (shared.processedNum % 100 == 0) {			
 				System.out.println("Processed: " + shared.processedNum);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			shared.erroredNum++;
+			//e.printStackTrace();
 		}
 	}
 }

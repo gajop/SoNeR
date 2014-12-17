@@ -72,7 +72,7 @@ public class PageRankMain {
 		}
 		
 		//double initialPR = 0.25;// / peopleSize;					
-		double initialPR = 1.0 / peopleSize;
+		double initialPR = 0.15;//1.0 / peopleSize;
 		if (initialPR == 0) {
 			initialPR = Double.MIN_VALUE;
 		}

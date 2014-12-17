@@ -7,38 +7,18 @@ import java.util.ResourceBundle;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.SQLExec;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.Util;
-import jp.ac.iwatepu.soner.graph.GexfGraphGenerator;
 import jp.ac.iwatepu.soner.processing.JenaFoafParser;
 
 public class ProcessingController extends AbstractWizardStepController {
 
-	@FXML
-	Button btnExportGraph;
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {	
 		super.initialize(location, resources);
-		btnContinue.disabledProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable,
-					Boolean oldValue, Boolean newValue) {
-				btnExportGraph.setDisable(newValue);
-			}
-		});
 	}
-	
-	public void btnExportGraphClick(ActionEvent event) {
-		GexfGraphGenerator gexfGraphGenerator = new GexfGraphGenerator();
-		gexfGraphGenerator.run();
-	}
+
 	
 	@Override
 	protected Task<Integer> createTask() {
@@ -60,9 +40,7 @@ public class ProcessingController extends AbstractWizardStepController {
 			    	updateMessage("Executing SQL scripts (this can take a while): Purify URIs");
 			    	executeSql("sql/purify_uri.sql");
 			    	updateMessage("Executing SQL scripts (this can take a while): Cleanup Known IDs");
-			    	executeSql("sql/known_ids.sql");
-			    	updateMessage("Executing SQL scripts (this can take a while): Synonym thingy");
-			    	executeSql("sql/synonym_synonym.sql");
+			    	executeSql("sql/known_ids.sql");			    	
 			    	updateMessage("Executing SQL scripts (this can take a while): Synonym script");
 			    	executeSql("sql/synonym_script.sql");
 			    	updateMessage("Executing SQL scripts (this can take a while): Purify attributes");

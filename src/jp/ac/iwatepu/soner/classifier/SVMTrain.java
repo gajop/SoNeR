@@ -68,6 +68,9 @@ public class SVMTrain {
 			br.close();
 		}		
 		
+		if (firstids.isEmpty()) {
+			return;
+		}
 		trainSVM(firstids.toArray(new Integer[firstids.size()]), 
 				secondids.toArray(new Integer[secondids.size()]), 
 				values.toArray(new Boolean[values.size()]));

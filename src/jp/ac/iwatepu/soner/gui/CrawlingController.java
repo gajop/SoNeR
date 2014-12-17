@@ -15,13 +15,15 @@ public class CrawlingController extends AbstractWizardStepController {
 				FOAFCrawler foafCrawler = new FOAFCrawler() {
 					@Override
 					public void downloadedPage(int numDownloaded) {
-						updateMessage(numDownloaded + "/" + Util.getInstance().getCrawlerMaxPages());
-						updateProgress(numDownloaded, Util.getInstance().getCrawlerMaxPages());
+						int maxPages = Util.getInstance().getCrawlerMaxPages();
+						updateMessage(numDownloaded + "/" + maxPages);
+						updateProgress(Math.min(numDownloaded, maxPages), maxPages);
 					}
 				};				
 				foafCrawler.run();
 				updateMessage("Done");
 				updateProgress(100, 100);
+				addOutput("Total errors: " + foafCrawler.getErroredNum());
 				return 0;
 		    }
 		};
