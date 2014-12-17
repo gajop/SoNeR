@@ -7,7 +7,9 @@ import java.util.Vector;
 
 import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.Util;
+import jp.ac.iwatepu.soner.ranking.HITSMain;
 import jp.ac.iwatepu.soner.ranking.HITSResult;
+import jp.ac.iwatepu.soner.ranking.PageRankMain;
 import jp.ac.iwatepu.soner.ranking.PageRankResult;
 
 public class ResultsSorter {
@@ -17,13 +19,17 @@ public class ResultsSorter {
 	public Vector<List<String>> sortedRanksPR;
 	public Vector<List<String>> sortedHubs;
 	public Vector<List<String>> sortedAuths;
-	int displayAmount;	
+	int displayAmount;
 	
-	public ResultsSorter(List<PageRankResult> pageRankResults,
-			List<HITSResult> hitsResults, int displayAmount) {
+	public PageRankMain pageRankMain;
+	public HITSMain hitsMain;
+	
+	public ResultsSorter(PageRankMain pageRankMain, HITSMain hitsMain, int displayAmount) {
 		super();
-		this.pageRankResults = pageRankResults;
-		this.hitsResults = hitsResults;		
+		this.pageRankResults = pageRankMain.results;
+		this.hitsResults = hitsMain.results;
+		this.pageRankMain = pageRankMain;
+		this.hitsMain = hitsMain;
 		this.displayAmount = displayAmount;
 	}
 

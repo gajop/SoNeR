@@ -6,46 +6,65 @@ import java.util.ResourceBundle;
 import java.util.Vector;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
+import jp.ac.iwatepu.soner.ranking.HITSMain;
+import jp.ac.iwatepu.soner.ranking.PageRankMain;
 
 public class ResultsController implements Initializable {
 
 	@FXML
 	ListView<String> lvPageRank;
 	@FXML
-	ListView<String> lvHITS;		
+	ListView<String> lvHITSHubs;
+	@FXML
+	ListView<String> lvHITSAuths;
+	@FXML
+	ComboBox<String> cmbSynonym;
+	@FXML
+	TableView<ComparisonLine> tblComparison;
 	
 	Vector<List<String>> sortedRanksPR;
 	Vector<List<String>> sortedHubs;
 	Vector<List<String>> sortedAuths;
 	
-	Task<Integer> task;
-	
-	@FXML
-	ComboBox<String> cmbSynonym;
+	Task<Integer> task;	
 	
 	int DISPLAY_AMOUNT = 50;
 	
-	public void setResults(ResultsSorter resultsSorter) {
+	public void setResults(ResultsSorter resultsSorter, PageRankMain prMain, HITSMain hitsMain) {
 		sortedRanksPR = resultsSorter.sortedRanksPR;
 		sortedHubs = resultsSorter.sortedHubs;
 		sortedAuths = resultsSorter.sortedAuths;
 		selectResults(0);
+		
+		String labels [] = { "seeAlso only", "attribute only", "seeAlso + attribute" };
+		ObservableList<ComparisonLine> data = tblComparison.getItems();
+		for (int i = 0; i < labels.length; i++) {
+			data.add(new ComparisonLine(labels[i],
+		            prMain.totalDifference[i],		            
+		            hitsMain.totalDifferenceHubs[i],
+		            hitsMain.totalDifferenceAuths[i]));
+		}
+		
+		WizardApplication.getInstance().primaryStage.getScene().getStylesheets().add("styles.css");
 	}	
 	
 	public void selectResults(int selectedItemIndex) {
 		lvPageRank.setItems(FXCollections.observableList(sortedRanksPR.get(selectedItemIndex)));
-		lvHITS.setItems(FXCollections.observableList(sortedHubs.get(selectedItemIndex)));
+		lvHITSHubs.setItems(FXCollections.observableList(sortedHubs.get(selectedItemIndex)));
+		lvHITSAuths.setItems(FXCollections.observableList(sortedAuths.get(selectedItemIndex)));
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		WizardApplication.getInstance().primaryStage.setHeight(540);
+		WizardApplication.getInstance().primaryStage.setHeight(540);		
 	}
 	
 	public void cmbSynonymSelect(ActionEvent event) {

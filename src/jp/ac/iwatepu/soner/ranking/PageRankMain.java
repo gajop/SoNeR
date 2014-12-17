@@ -95,7 +95,13 @@ public class PageRankMain {
 		}*/
 		
 		return result;
-	}
+	}	
+	
+	int COMPARISON_AMOUNT = 3;
+	int calculatedAmount = 0;
+	public double totalDifference[] = new double[COMPARISON_AMOUNT];
+	public double averageDifference[] = new double[COMPARISON_AMOUNT];
+	public int totalDifferentRank[] = new int[COMPARISON_AMOUNT];
 	
 	private void printDifference(PageRankResult result1, PageRankResult result2) {
 		double ranksWithoutSynonyms [] = result1.ranks;
@@ -122,6 +128,10 @@ public class PageRankMain {
 		//	System.out.println(resultWithoutSynonyms.indexes[i] + " " + resultWithSynonyms.indexes[i]);
 		}
 		
+		this.totalDifference[calculatedAmount] = totalDifference;
+		this.averageDifference[calculatedAmount] = averageDifference;
+		this.totalDifferentRank[calculatedAmount] = totalDifferentRank;
+		calculatedAmount++;
 		System.out.println("Total difference: " + totalDifference + " average difference: " + averageDifference + 
 				" " + totalDifference / sumWithoutSynonyms * 100 + "%" + " different rank: " + totalDifferentRank  + " / " + result1.ranks.length);		
 	}	

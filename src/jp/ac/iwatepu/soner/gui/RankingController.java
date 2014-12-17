@@ -46,7 +46,7 @@ public class RankingController extends AbstractWizardStepController {
 		    	hitsMain.run();
 		    	
 		    	updateMessage("Sorting...");
-		    	resultsSorter = new ResultsSorter(pageRankMain.results, hitsMain.results, 50);
+		    	resultsSorter = new ResultsSorter(pageRankMain, hitsMain, 50);
 		    	resultsSorter.sortResults();
 		    	updateMessage("Done");
 		    	done();
@@ -69,7 +69,7 @@ public class RankingController extends AbstractWizardStepController {
 	protected FXMLLoader loadNextStep() throws IOException {	
 		FXMLLoader loader = super.loadNextStep();
 		ResultsController controller = loader.<ResultsController>getController();
-		controller.setResults(resultsSorter);
+		controller.setResults(resultsSorter, pageRankMain, hitsMain);
 		return loader;
 	}
 }

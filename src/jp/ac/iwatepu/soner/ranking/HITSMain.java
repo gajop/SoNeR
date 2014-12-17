@@ -43,8 +43,8 @@ public class HITSMain {
 		HITSResult resultWithSynonymsAttrMatching = runHITS();		
 		
 		printDifference(resultWithoutSynonyms, resultWithSynonyms);
-		printDifference(resultWithoutSynonyms, resultWithSynonymsAttrMatching);
 		printDifference(resultWithoutSynonyms, resultWithSynonymsOnlyAttrMatching);
+		printDifference(resultWithoutSynonyms, resultWithSynonymsAttrMatching);		
 	}
 	
 	public HITSResult runHITS() throws Exception {
@@ -73,7 +73,17 @@ public class HITSMain {
 		
 		return result;
 	}
+
+	int COMPARISON_AMOUNT = 3;
+	int calculatedAmount = 0;
 	
+	public double totalDifferenceHubs[] = new double[COMPARISON_AMOUNT];
+	public double averageDifferenceHubs[] = new double[COMPARISON_AMOUNT];
+	public int totalDifferentHubs[] = new int[COMPARISON_AMOUNT];
+	
+	public double totalDifferenceAuths[] = new double[COMPARISON_AMOUNT];
+	public double averageDifferenceAuths[] = new double[COMPARISON_AMOUNT];
+	public int totalDifferentAuths[] = new int[COMPARISON_AMOUNT];
 	private void printDifference(HITSResult result1, HITSResult result2) {
 		double authsWithoutSynonyms[] = result1.auths;
 		double hubsWithoutSynonyms [] = result1.hubs;
@@ -102,6 +112,9 @@ public class HITSMain {
 			for (int i = 0; i < checkTop; i++) {
 				totalDifferentRank += (result1.authIndexes[i] != result2.authIndexes[i])?1:0;
 			}
+			this.totalDifferenceHubs[calculatedAmount] = totalDifference;
+			this.totalDifferentHubs[calculatedAmount] = totalDifferentRank;
+			this.averageDifferenceHubs[calculatedAmount] = averageDifference;
 			System.out.println("Total difference: " + totalDifference + " average difference: " + averageDifference + 
 					" " + totalDifference / sumWithoutSynonyms * 100 + "%" + " different rank: " + totalDifferentRank  + " / " + result1.authIndexes.length);
 		}
@@ -120,6 +133,10 @@ public class HITSMain {
 			for (int i = 0; i < checkTop; i++) {
 				totalDifferentRank += (result1.hubIndexes[i] != result2.hubIndexes[i])?1:0;
 			}
+			this.totalDifferenceAuths[calculatedAmount] = totalDifference;
+			this.totalDifferentAuths[calculatedAmount] = totalDifferentRank;
+			this.averageDifferenceAuths[calculatedAmount] = averageDifference;
+			calculatedAmount++;
 			System.out.println("Total difference: " + totalDifference + " average difference: " + averageDifference + 
 					" " + totalDifference / sumWithoutSynonyms * 100 + "%" + " different rank: " + totalDifferentRank + " / " + result1.hubIndexes.length);
 		}
