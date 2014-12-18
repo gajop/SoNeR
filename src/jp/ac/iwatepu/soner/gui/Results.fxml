@@ -80,7 +80,7 @@
 			</items>
 	</ComboBox>
 	<Button fx:id="btnExportGraph" layoutX="455.0" layoutY="498.0" mnemonicParsing="false" onAction="#btnExportGraphClick" prefHeight="29.0" prefWidth="109.0" text="Export graph" />
-      <Label layoutX="14.0" layoutY="309.0" prefHeight="19.0" prefWidth="134.0" text="Node difference">
+      <Label layoutX="14.0" layoutY="309.0" prefHeight="19.0" prefWidth="234.0" text="Impact of synonym detection on node value">
          <font>
             <Font size="15.0" />
          </font>

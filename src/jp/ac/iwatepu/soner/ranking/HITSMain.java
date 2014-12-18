@@ -133,7 +133,7 @@ public class HITSMain {
 			for (int i = 0; i < checkTop; i++) {
 				totalDifferentRank += (result1.hubIndexes[i] != result2.hubIndexes[i])?1:0;
 			}
-			this.totalDifferenceAuths[calculatedAmount] = totalDifference;
+			this.totalDifferenceAuths[calculatedAmount] = totalDifference / sumWithoutSynonyms * 100;
 			this.totalDifferentAuths[calculatedAmount] = totalDifferentRank;
 			this.averageDifferenceAuths[calculatedAmount] = averageDifference;
 			calculatedAmount++;

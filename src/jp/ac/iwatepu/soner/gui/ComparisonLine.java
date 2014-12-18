@@ -44,13 +44,13 @@ public class ComparisonLine {
 		return String.valueOf(Integer.valueOf((int) (value * 100)) / 100.0);
 	}
 	public void setPageRankDifference(double pageRankDifference) {
-		this.pageRankDifference.set(doubleToTwoDigitString(pageRankDifference));
+		this.pageRankDifference.set(doubleToTwoDigitString(pageRankDifference) + "%");
 	}
 	public void setHubsDifference(double hubsDifference) {
-		this.hubsDifference.set(doubleToTwoDigitString(hubsDifference));
+		this.hubsDifference.set(doubleToTwoDigitString(hubsDifference) + "%");
 	}
 	public void setAuthsDifference(double authsDifference) {
-		this.authsDifference.set(doubleToTwoDigitString(authsDifference));
+		this.authsDifference.set(doubleToTwoDigitString(authsDifference) + "%");
 	}
 	
 }

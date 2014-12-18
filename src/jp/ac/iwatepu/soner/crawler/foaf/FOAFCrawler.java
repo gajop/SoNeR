@@ -47,6 +47,8 @@ public class FOAFCrawler {
 	public void downloadedPage(int numDownloaded) {		
 	}
 	
+	public void loadedPage(int numLoaded) {		
+	}	
 	
 	public int getErroredNum() {
 		return erroredNum;
@@ -74,7 +76,7 @@ public class FOAFCrawler {
 			toVisit.remove(0);
 			visited.add(top);
 			try {
-				threadPool.execute(new ProcessingJob(this, new URL(top), true));
+				threadPool.execute(new ProcessingJob(this, new URL(top), true, false));
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			}
@@ -99,7 +101,7 @@ public class FOAFCrawler {
 			try {
 				String original = URLDecoder.decode(fileName, "UTF-8");
 				visited.add(original);
-				new ProcessingJob(this, new File(outputDir, fileName).toURI().toURL(), false).run();
+				new ProcessingJob(this, new File(outputDir, fileName).toURI().toURL(), false, true).run();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}			
@@ -119,14 +121,16 @@ public class FOAFCrawler {
 class ProcessingJob implements Runnable {
 	FOAFCrawler shared;
 	URL foafPageURL;
-	boolean writeToFile;	
+	boolean writeToFile;
+	boolean load;
 	
 	public ProcessingJob(FOAFCrawler shared, URL foafPageURL,
-			boolean writeToFile) {
+			boolean writeToFile, boolean load) {
 		super();
 		this.shared = shared;
 		this.foafPageURL = foafPageURL;
 		this.writeToFile = writeToFile;
+		this.load = load;
 	}
 
 	public void processPage(URL foafPageURL, boolean writeToFile) throws IOException {
@@ -172,7 +176,11 @@ class ProcessingJob implements Runnable {
 		try {
 			processPage(this.foafPageURL, this.writeToFile);
 			shared.processedNum++;
-			shared.downloadedPage(shared.visited.size());			
+			if (this.load) {
+				shared.loadedPage(shared.visited.size());
+			} else {
+				shared.downloadedPage(shared.visited.size());
+			}
 
 			if (shared.processedNum % 100 == 0) {			
 				System.out.println("Processed: " + shared.processedNum);

@@ -128,7 +128,7 @@ public class PageRankMain {
 		//	System.out.println(resultWithoutSynonyms.indexes[i] + " " + resultWithSynonyms.indexes[i]);
 		}
 		
-		this.totalDifference[calculatedAmount] = totalDifference;
+		this.totalDifference[calculatedAmount] = totalDifference / sumWithoutSynonyms * 100;
 		this.averageDifference[calculatedAmount] = averageDifference;
 		this.totalDifferentRank[calculatedAmount] = totalDifferentRank;
 		calculatedAmount++;
