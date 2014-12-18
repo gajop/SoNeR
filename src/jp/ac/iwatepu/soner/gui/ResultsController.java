@@ -25,32 +25,30 @@ import jp.ac.iwatepu.soner.ranking.PageRankMain;
 public class ResultsController implements Initializable {
 
 	@FXML
-	ListView<String> lvPageRank;
+	protected ListView<String> lvPageRank;
 	@FXML
-	ListView<String> lvHITSHubs;
+	protected ListView<String> lvHITSHubs;
 	@FXML
-	ListView<String> lvHITSAuths;
+	protected ListView<String> lvHITSAuths;
 	@FXML
-	ComboBox<String> cmbSynonym;
+	protected ComboBox<String> cmbSynonym;
 	@FXML
-	TableView<ComparisonLine> tblComparison;
+	protected TableView<ComparisonLine> tblComparison;
 	@FXML
-	Button btnExportGraph;
+	protected Button btnExportGraph;
 	
-	Vector<List<String>> sortedRanksPR;
-	Vector<List<String>> sortedHubs;
-	Vector<List<String>> sortedAuths;
+	private Vector<List<String>> sortedRanksPR;
+	private Vector<List<String>> sortedHubs;
+	private Vector<List<String>> sortedAuths;
 	
-	Task<Integer> task;	
-	
-	int DISPLAY_AMOUNT = 50;
+	protected Task<Integer> task;	
 	
 	public void btnExportGraphClick(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Export social graph");
 		fileChooser.setInitialFileName("SoNeR.gexf");
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("GEXF", "*.gexf"));
-		File file = fileChooser.showSaveDialog(WizardApplication.getInstance().primaryStage);
+		File file = fileChooser.showSaveDialog(WizardApplication.getInstance().getPrimaryStage());
 	    if (file != null) {
 	    	GexfGraphGenerator gexfGraphGenerator = new GexfGraphGenerator(file);
 			gexfGraphGenerator.run();
@@ -58,18 +56,18 @@ public class ResultsController implements Initializable {
 	}
 	
 	public void setResults(ResultsSorter resultsSorter, PageRankMain prMain, HITSMain hitsMain) {
-		sortedRanksPR = resultsSorter.sortedRanksPR;
-		sortedHubs = resultsSorter.sortedHubs;
-		sortedAuths = resultsSorter.sortedAuths;
+		sortedRanksPR = resultsSorter.getSortedRanksPR();
+		sortedHubs = resultsSorter.getSortedHubs();
+		sortedAuths = resultsSorter.getSortedAuths();
 		selectResults(0);
 		
-		String labels [] = { "seeAlso only", "attribute only", "seeAlso + attribute" };
+		String labels [] = { "seeAlso", "attribute", "seeAlso + attribute" };
 		ObservableList<ComparisonLine> data = tblComparison.getItems();
 		for (int i = 0; i < labels.length; i++) {
 			data.add(new ComparisonLine(labels[i],
-		            prMain.totalDifference[i],		            
-		            hitsMain.totalDifferenceHubs[i],
-		            hitsMain.totalDifferenceAuths[i]));
+		            prMain.totalDifferentRank[i] * 100 / prMain.getCheckTop(),
+		            hitsMain.totalDifferentHubs[i] * 100 / hitsMain.getCheckTop(),
+		            hitsMain.totalDifferentAuths[i] * 100 / hitsMain.getCheckTop()));
 		}
 		
 		cmbSynonym.getSelectionModel().select(0);
@@ -83,7 +81,7 @@ public class ResultsController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		WizardApplication.getInstance().primaryStage.setHeight(580);		
+		WizardApplication.getInstance().getPrimaryStage().setHeight(580);		
 	}
 	
 	public void cmbSynonymSelect(ActionEvent event) {

@@ -18,7 +18,6 @@ public class ProcessingController extends AbstractWizardStepController {
 	public void initialize(URL location, ResourceBundle resources) {	
 		super.initialize(location, resources);
 	}
-
 	
 	@Override
 	protected Task<Integer> createTask() {

@@ -15,10 +15,10 @@ import org.apache.log4j.Logger;
 public class DBPopulator {
 	private static final Logger logger = LogManager.getLogger("DBPopulator");
 	
-	int BASE_BUFFER_SIZE = 100;
-	Map<String, Vector<String>> bufferMap = new HashMap<String, Vector<String>>();
+	private int BASE_BUFFER_SIZE = 100;
+	private Map<String, Vector<String>> bufferMap = new HashMap<String, Vector<String>>();
 	
-	Connection conn;
+	private Connection conn;
 	
 	public DBPopulator() throws ClassNotFoundException, SQLException {
 		conn = DBConnector.getInstance().getConnection();

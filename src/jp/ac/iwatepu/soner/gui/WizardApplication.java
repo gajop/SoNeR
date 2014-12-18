@@ -14,9 +14,9 @@ import javafx.stage.Stage;
 
 public class WizardApplication extends Application {
 	private static WizardApplication instance;
-	Pane content;
-	boolean automaticNextStep;
-	Stage primaryStage;
+	private Pane content;
+	private boolean automaticNextStep;
+	private Stage primaryStage;
 	
 	static final Logger logger = LogManager.getLogger("Wizard");
 	
@@ -24,6 +24,10 @@ public class WizardApplication extends Application {
 		return instance;
 	}
 	
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
 	@Override
 	public void start(Stage primaryStage) {
 		instance = this;

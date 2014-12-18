@@ -10,7 +10,7 @@ import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.Util;
 
 public class PageRank {
-	int NUM_ITERS = 200;
+	private int NUM_ITERS = 200;
 	
 	private static final Logger logger = LogManager.getLogger("PageRank");
 	

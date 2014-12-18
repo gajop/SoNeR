@@ -10,17 +10,17 @@ import org.apache.log4j.Logger;
 import jp.ac.iwatepu.soner.DBConnector;
 
 public class SVMLabel {
-	protected int[] sameNames;
-	protected SVMTrain svmTrain;
-	protected boolean [] matches;
+	private int[] sameNames;
+	private SVMTrain svmTrain;
+	private  boolean [] matches;
 	
-	Scanner sc;
-	protected String[] tags;
-	protected String[][] values;
+	private Scanner sc;
+	private  String[] tags;
+	private String[][] values;
 	
 	public enum LabelResult { SAME, DIFFERENT, SKIP, END };
 	
-	static final Logger logger = LogManager.getLogger("SVM");
+	private static final Logger logger = LogManager.getLogger("SVM");
 	/**
 	 * @param args
 	 */
@@ -72,8 +72,8 @@ public class SVMLabel {
 		matches = new boolean[sameNames.length / 2];
 		
 		sc = new Scanner(System.in);
-		tags = svmTrain.tags;
-		values = svmTrain.values;
+		tags = svmTrain.getTags();
+		values = svmTrain.getValues();
 		
 		int endLevel = 0;
 		for (int i = 0; i < sameNames.length; i += 2) {

@@ -11,16 +11,16 @@ import jp.ac.iwatepu.soner.ranking.PageRankMain;
 import jp.ac.iwatepu.soner.ranking.PageRankResult;
 
 public class RankingController extends AbstractWizardStepController {
-
-	PageRankMain pageRankMain;
-	HITSMain hitsMain;
-	ResultsSorter resultsSorter;
+	private PageRankMain pageRankMain;
+	private HITSMain hitsMain;
+	private ResultsSorter resultsSorter;
 
 	@Override
 	protected Task<Integer> createTask() {
 		Task<Integer> task = new Task<Integer>() {
 		    @Override protected Integer call() throws Exception {
 		    	updateMessage("Initializing...");
+		    	updateProgress(0, 100);
 		    	final int totalRanking = 8;
 		    	pageRankMain = new PageRankMain() {
 		    		int totalDone = 0;

@@ -15,10 +15,14 @@ public class PageRankMain {
 	protected boolean useSynonyms = false;
 	protected boolean withAttributeMatching = false;
 	protected boolean onlyWithAttributeMatching = false;
-	public List<PageRankResult> results;
+	private List<PageRankResult> results;
 	
 	private static final Logger logger = LogManager.getLogger("PageRank");
 	
+	public List<PageRankResult> getResults() {
+		return results;
+	}
+
 	public static void main(String[] args) throws Exception {
 		PageRankMain prMain = new PageRankMain();
 		prMain.run();
@@ -75,12 +79,8 @@ public class PageRankMain {
 		for (int i = 0; i < knownPeople.length; i+=2) {
 			knownPeopleIds[knownPeople[i]].add(knownPeople[i + 1]);
 		}
-		
-		//double initialPR = 0.25;// / peopleSize;					
-		double initialPR = 0.15;//1.0 / peopleSize;
-		if (initialPR == 0) {
-			initialPR = Double.MIN_VALUE;
-		}
+							
+		double initialPR = 0.15;
 
 		PageRankResult result = pr.run(peopleSize, knownPeopleIds, initialPR);
 		
@@ -92,12 +92,15 @@ public class PageRankMain {
 	public double totalDifference[] = new double[COMPARISON_AMOUNT];
 	public double averageDifference[] = new double[COMPARISON_AMOUNT];
 	public int totalDifferentRank[] = new int[COMPARISON_AMOUNT];
+	private int checkTop = 1000;
 	
+	public int getCheckTop() {
+		return checkTop;
+	}
 	private void printDifference(PageRankResult result1, PageRankResult result2) {
 		double ranksWithoutSynonyms [] = result1.ranks;
 		double ranksWithSynonyms [] = result2.ranks;
-		
-		int checkTop = 100;
+				
 		if (checkTop <= 0) {
 			checkTop = result1.ranks.length;
 		} else {
@@ -110,7 +113,6 @@ public class PageRankMain {
 		}
 		double averageDifference = totalDifference / checkTop;
 		double sumWithoutSynonyms = Util.getInstance().sum(ranksWithoutSynonyms, checkTop);
-		//double sumWithSynonyms = Util.getInstance().sum(ranksWithoutSynonyms, checkTop);
 		int totalDifferentRank = 0;
 		
 		for (int i = 0; i < checkTop; i++) {
@@ -122,6 +124,6 @@ public class PageRankMain {
 		this.totalDifferentRank[calculatedAmount] = totalDifferentRank;
 		calculatedAmount++;
 		logger.info("Total difference: " + totalDifference + " average difference: " + averageDifference + 
-				" " + totalDifference / sumWithoutSynonyms * 100 + "%" + " different rank: " + totalDifferentRank  + " / " + result1.ranks.length);		
+				" " + totalDifference / sumWithoutSynonyms * 100 + "%" + " different rank: " + totalDifferentRank  + " / " + checkTop);		
 	}	
 }

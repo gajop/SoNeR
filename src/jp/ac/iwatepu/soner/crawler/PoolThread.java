@@ -7,7 +7,7 @@ public class PoolThread extends Thread {
 
 	private ThreadPool threadPool = null;
 	private boolean isStopped = false;
-	static final Logger logger = LogManager.getLogger("ThreadPool");
+	private static final Logger logger = LogManager.getLogger("ThreadPool");
 
 	public PoolThread(ThreadPool threadPool){
 		this.threadPool = threadPool;
@@ -28,10 +28,10 @@ public class PoolThread extends Thread {
 
 	public synchronized void interruptThread() {
 		isStopped = true;
-		this.interrupt(); //break pool thread out of dequeue() call.
+		this.interrupt();
 	}
 
-	public synchronized boolean isStopped(){
+	public synchronized boolean isStopped() {
 		return isStopped;
 	}
 

@@ -16,25 +16,20 @@ import jp.ac.iwatepu.soner.ranking.PageRankMain;
 import jp.ac.iwatepu.soner.ranking.PageRankResult;
 
 public class ResultsSorter {
-	List<PageRankResult> pageRankResults;
-	List<HITSResult> hitsResults;
+	private List<PageRankResult> pageRankResults;
+	private List<HITSResult> hitsResults;
 	
-	public Vector<List<String>> sortedRanksPR;
-	public Vector<List<String>> sortedHubs;
-	public Vector<List<String>> sortedAuths;
-	int displayAmount;
-	
-	public PageRankMain pageRankMain;
-	public HITSMain hitsMain;
+	private  Vector<List<String>> sortedRanksPR;
+	private  Vector<List<String>> sortedHubs;
+	private  Vector<List<String>> sortedAuths;
+	private int displayAmount;	
 	
 	static final Logger logger = LogManager.getLogger("Wizard");
 	
 	public ResultsSorter(PageRankMain pageRankMain, HITSMain hitsMain, int displayAmount) {
 		super();
-		this.pageRankResults = pageRankMain.results;
-		this.hitsResults = hitsMain.results;
-		this.pageRankMain = pageRankMain;
-		this.hitsMain = hitsMain;
+		this.pageRankResults = pageRankMain.getResults();
+		this.hitsResults = hitsMain.getResults();
 		this.displayAmount = displayAmount;
 	}
 
@@ -53,13 +48,15 @@ public class ResultsSorter {
 		return;
 	}
 	
-	public List<String> sortPageRankResult(PageRankResult result, int topNum) {
+	private List<String> sortPageRankResult(PageRankResult result, int topNum) {
 		List<String> resultStr = new LinkedList<String>();
-		int[] topRanks = Util.getInstance().getTopNIndexes(result.ranks, topNum); 
+		int[] topRanks = Util.getInstance().getTopNIndexes(result.ranks, topNum);
+		int i = 0;
 		for (int index : topRanks) {
-			try {
+			i++;
+			try {				
 				String personName = personToString(index);
-				personName = personName + " (" + result.getRanks()[index] + ")";
+				personName = i + ". " + personName + " (" + result.ranks[index] + ")";
 				resultStr.add(personName);
 			} catch (ClassNotFoundException e) {
 				logger.error(e);
@@ -71,13 +68,15 @@ public class ResultsSorter {
 	}
 	
 	
-	public List<String> sortHITSResultHubs(HITSResult result, int topNum) {
+	private List<String> sortHITSResultHubs(HITSResult result, int topNum) {
 		List<String> resultStr = new LinkedList<String>();
-		int[] topRanks = Util.getInstance().getTopNIndexes(result.getHubs(), topNum); 
+		int[] topRanks = Util.getInstance().getTopNIndexes(result.hubs, topNum);
+		int i = 0;
 		for (int index : topRanks) {
-			try {
+			i++;
+			try {				
 				String personName = personToString(index);
-				personName = personName + " (" + result.getHubs()[index] + ")";
+				personName = i + ". " +personName + " (" + result.hubs[index] + ")";
 				resultStr.add(personName);
 			} catch (ClassNotFoundException e) {
 				logger.error(e);
@@ -88,13 +87,15 @@ public class ResultsSorter {
 		return resultStr;
 	}
 	
-	public List<String> sortHITSResultAuths(HITSResult result, int topNum) {
+	private List<String> sortHITSResultAuths(HITSResult result, int topNum) {
 		List<String> resultStr = new LinkedList<String>();
-		int[] topRanks = Util.getInstance().getTopNIndexes(result.getAuths(), topNum); 
+		int[] topRanks = Util.getInstance().getTopNIndexes(result.auths, topNum); 
+		int i = 0;
 		for (int index : topRanks) {
-			try {
+			i++;
+			try {				
 				String personName = personToString(index);
-				personName = personName + " (" + result.getAuths()[index] + ")";
+				personName = i + ". " +personName + " (" + result.auths[index] + ")";
 				resultStr.add(personName);
 			} catch (ClassNotFoundException e) {
 				logger.error(e);
@@ -105,7 +106,7 @@ public class ResultsSorter {
 		return resultStr;
 	}
 	
-	public String personToString(int id) throws ClassNotFoundException, SQLException {
+	private String personToString(int id) throws ClassNotFoundException, SQLException {
 		String personName = DBConnector.getInstance().getPersonName(id);
 		if (personName == null) {
 			personName = DBConnector.getInstance().getPersonTag("nick", id);
@@ -115,4 +116,17 @@ public class ResultsSorter {
 		}
 		return personName;
 	}
+
+	public Vector<List<String>> getSortedRanksPR() {
+		return sortedRanksPR;
+	}
+
+	public Vector<List<String>> getSortedHubs() {
+		return sortedHubs;
+	}
+
+	public Vector<List<String>> getSortedAuths() {
+		return sortedAuths;
+	}	
+	
 }

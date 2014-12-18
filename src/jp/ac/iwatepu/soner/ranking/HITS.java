@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import jp.ac.iwatepu.soner.Util;
 
 public class HITS {
-	int NUM_ITERS = 200;
+	private int NUM_ITERS = 200;
 	private static final Logger logger = LogManager.getLogger("HITS");
 
 	public HITSResult run(int graphSize, Vector<Integer>[] connections, double initialValues) throws Exception {
@@ -27,7 +27,7 @@ public class HITS {
 		logger.info("Starting algorithm...");
 		for (int ITER = 0; ITER < NUM_ITERS; ITER++) {			
 		    for (int personId = 0; personId < graphSize; personId++) {
-				auths[personId] = 0;//0.15;
+				auths[personId] = 0;
 			}
 			for (int personId = 0; personId < graphSize; personId++) {
 				for (int knownPersonId : connections[personId]) {

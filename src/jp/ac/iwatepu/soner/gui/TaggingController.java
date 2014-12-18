@@ -35,7 +35,23 @@ public class TaggingController implements Initializable {
 	protected String[][] values;
 	public enum LabelResult { SAME, DIFFERENT, SKIP, END };
 	
-	int currentIndex;
+	private int currentIndex;
+		
+	private HashMap<String, TextField> person1Tags = new HashMap<String, TextField>();
+	private HashMap<String, TextField> person2Tags = new HashMap<String, TextField>();
+	
+	@FXML
+	protected GridPane gpContent;	
+	@FXML
+	protected Button btnContinue;
+	@FXML
+	protected ScrollPane spAttributes;
+	@FXML
+	protected Button btnYes;
+	@FXML
+	protected Button btnNo;
+	@FXML
+	protected Label lblSynonyms;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
@@ -79,8 +95,8 @@ public class TaggingController implements Initializable {
 		}
 		matches = new boolean[sameNames.length / 2];
 		
-		tags = svmTrain.tags;
-		values = svmTrain.values;
+		tags = svmTrain.getTags();
+		values = svmTrain.getValues();
 		
 		int row = 0;
 		for (String tag : tags) {
@@ -93,26 +109,10 @@ public class TaggingController implements Initializable {
 			gpContent.addRow(row++, new Label(tag + ": "), tf1, tf2);
 		}
 		
-		displayPerson();
+		displayComparison();
 	}
 	
-	HashMap<String, TextField> person1Tags = new HashMap<String, TextField>();
-	HashMap<String, TextField> person2Tags = new HashMap<String, TextField>();
-	
-	@FXML
-	protected GridPane gpContent;	
-	@FXML
-	protected Button btnContinue;
-	@FXML
-	protected ScrollPane spAttributes;
-	@FXML
-	protected Button btnYes;
-	@FXML
-	protected Button btnNo;
-	@FXML
-	protected Label lblSynonyms;
-	
-	public void displayPerson() {
+	private void displayComparison() {
 		spAttributes.setVvalue(0);
 		if (currentIndex+1 >= sameNames.length) {
 			btnYes.setDisable(true);
@@ -154,13 +154,13 @@ public class TaggingController implements Initializable {
 	protected void btnYesClick(ActionEvent event) {
 		addLabel(LabelResult.SAME, currentIndex);
 		currentIndex += 2;
-		displayPerson();
+		displayComparison();
 	}
 	
 	@FXML
 	protected void btnNoClick(ActionEvent event) {
 		addLabel(LabelResult.DIFFERENT, currentIndex);
 		currentIndex += 2;
-		displayPerson();
+		displayComparison();
 	}
 }

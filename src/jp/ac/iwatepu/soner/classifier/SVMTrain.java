@@ -18,25 +18,26 @@ import libsvm.svm_parameter;
 import libsvm.svm_problem;
 
 public class SVMTrain {
-	int pairsSize;
-	public String[][] values;
-	svm_model model;
-	int peopleSize;
-	public String[] tags = Util.getInstance().getTags();
+	private String[][] values;
+	private svm_model model;
+	private String[] tags = Util.getInstance().getTags();
 
-	static final Logger logger = LogManager.getLogger("FOAFCrawler");
+	private static final Logger logger = LogManager.getLogger("FOAFCrawler");
 	
-	/**
-	 * @param args
-	 * @throws Exception
-	 */
 	public static void main(String[] args) throws Exception {
 		SVMTrain svmTrain = new SVMTrain();
 		svmTrain.run();
-	}
+	}	
 	
+	public String[][] getValues() {
+		return values;
+	}
+
+	public String[] getTags() {
+		return tags;
+	}
+
 	public void fetch() throws Exception {
-		peopleSize = DBConnector.getInstance().getPeopleSize();
 		logger.info("Fetching from DB...");
 		HashMap<String, String[]> tagMapping = new HashMap<String, String[]>();
 		values = new String[tags.length][];

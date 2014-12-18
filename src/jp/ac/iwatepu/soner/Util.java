@@ -10,15 +10,14 @@ import java.util.Properties;
 
 public class Util {
 	private static Util instance = new Util();
-	String inputDirName;
-	String crawlerStartURL;
-	int crawlerMaxPages;
-	String dbURL;
-	String dbUser;
-	String dbPassword;
-	String dbDriver;
-	
-	String [] tags = { 
+	private String inputDirName;
+	private String crawlerStartURL;
+	private int crawlerMaxPages;
+	private String dbURL;
+	private String dbUser;
+	private String dbPassword;
+	private String dbDriver;	
+	private String [] tags = { 
 			"familyName",
 			"name",
 			"mbox_sha1sum",
@@ -114,7 +113,6 @@ public class Util {
 	private void init() {
 		Properties prop = new Properties();			
 		try {
-	        //load a properties file
 			prop.load(new FileInputStream("SoNeR.properties"));
 	
 			inputDirName = prop.getProperty("input_dir");

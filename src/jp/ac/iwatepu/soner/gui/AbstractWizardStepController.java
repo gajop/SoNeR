@@ -36,7 +36,7 @@ public abstract class AbstractWizardStepController implements Initializable {
 	protected abstract Task<Integer> createTask();
 	protected abstract String nextStepName();
 	
-	static final Logger logger = LogManager.getLogger("Wizard");
+	protected static final Logger logger = LogManager.getLogger("Wizard");
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

@@ -11,8 +11,8 @@ public class ThreadPool {
 
 	private ArrayBlockingQueue<Runnable> taskQueue = null;
 	private List<PoolThread> threads = new ArrayList<PoolThread>();	
-	int busyCount = 0;
-	static final Logger logger = LogManager.getLogger("ThreadPool");
+	private int busyCount = 0;
+	private static final Logger logger = LogManager.getLogger("ThreadPool");
 	
 	public ThreadPool(int noOfThreads, int maxNoOfTasks){
 		taskQueue = new ArrayBlockingQueue<Runnable>(maxNoOfTasks);
@@ -50,6 +50,6 @@ public class ThreadPool {
 	}
 	
 	public boolean isBusy() {
-		return (busyCount == 0 && taskQueue.isEmpty());			
+		return busyCount > 0 || !taskQueue.isEmpty();			
 	}
 }

@@ -13,10 +13,6 @@ public class SVM {
 
 	static final Logger logger = LogManager.getLogger("SVM");
 	
-	/**
-	 * @param args
-	 * @throws Exception 
-	 */
 	public static void main(String[] args) throws Exception {
 		SVM svm = new SVM();
 		svm.run();

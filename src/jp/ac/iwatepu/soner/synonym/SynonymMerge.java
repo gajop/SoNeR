@@ -12,10 +12,10 @@ import jp.ac.iwatepu.soner.classifier.SVM;
 import jp.ac.iwatepu.soner.ranking.Person;
 
 public class SynonymMerge {
-	int[] mapping;
-	Set<Integer> synonymSets [];
-	boolean withAttributeMatching;
-	boolean onlyWithAttributeMatching;
+	private int[] mapping;
+	private Set<Integer> synonymSets [];
+	private boolean withAttributeMatching;
+	private boolean onlyWithAttributeMatching;
 	
 	private static final Logger logger = LogManager.getLogger("SynonymMerge");
 	

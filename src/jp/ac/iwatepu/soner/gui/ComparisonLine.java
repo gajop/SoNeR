@@ -3,10 +3,10 @@ package jp.ac.iwatepu.soner.gui;
 import javafx.beans.property.SimpleStringProperty;
 
 public class ComparisonLine {
-	public final SimpleStringProperty comparisonType = new SimpleStringProperty("");
-	public final SimpleStringProperty pageRankDifference = new SimpleStringProperty("");
-	public final SimpleStringProperty hubsDifference = new SimpleStringProperty("");
-	public final SimpleStringProperty authsDifference = new SimpleStringProperty("");
+	private final SimpleStringProperty comparisonType = new SimpleStringProperty("");
+	private final SimpleStringProperty pageRankDifference = new SimpleStringProperty("");
+	private final SimpleStringProperty hubsDifference = new SimpleStringProperty("");
+	private final SimpleStringProperty authsDifference = new SimpleStringProperty("");
 	
 	public ComparisonLine() {
 		this("", 0, 0, 0);

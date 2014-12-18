@@ -14,29 +14,4 @@ public class HITSResult {
 		this.hubs = hubs;
 		this.auths = auths;
 	}
-	public int[] getAuthIndexes() {
-		return authIndexes;
-	}
-	public void setAuthIndexes(int[] authIndexes) {
-		this.authIndexes = authIndexes;
-	}
-	public int[] getHubIndexes() {
-		return hubIndexes;
-	}
-	public void setHubIndexes(int[] hubIndexes) {
-		this.hubIndexes = hubIndexes;
-	}
-	public double[] getHubs() {
-		return hubs;
-	}
-	public void setHubs(double[] hubs) {
-		this.hubs = hubs;
-	}
-	public double[] getAuths() {
-		return auths;
-	}
-	public void setAuths(double[] auths) {
-		this.auths = auths;
-	}
-	 
 }

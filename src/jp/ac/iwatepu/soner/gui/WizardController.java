@@ -20,7 +20,33 @@ import jp.ac.iwatepu.soner.Util;
 
 public class WizardController implements Initializable {
 	
-	static final Logger logger = LogManager.getLogger("Wizard");
+	private static final Logger logger = LogManager.getLogger("Wizard");
+	
+	@FXML
+	private TextField tfURL;	
+	@FXML
+	private Button btnStart;
+	@FXML
+	private ToggleButton btnAdvanced;
+	@FXML
+	private ScrollPane spAdvanced;
+	//advanced options
+	@FXML
+	private TextField tfAmount;
+	@FXML
+	private TextField tfOutputFolder;
+	@FXML
+	private TextField tfDatabaseURL;
+	@FXML
+	private TextField tfDatabaseDriver;
+	@FXML
+	private TextField tfDatabaseUsername;
+	@FXML
+	private TextField tfDatabasePassword;
+	@FXML
+	private ComboBox<String> cmbStartingStep;
+	@FXML
+	private CheckBox cbAutomaticNextStep;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -35,12 +61,6 @@ public class WizardController implements Initializable {
 		cmbStartingStep.getSelectionModel().select(0);
 		spAdvanced.visibleProperty().bind(btnAdvanced.selectedProperty());		
 	}
-	
-	@FXML
-	private TextField tfURL;
-	
-	@FXML
-	private Button btnStart;
 	
 	@FXML
 	protected void btnStartClick(ActionEvent event) {
@@ -70,27 +90,4 @@ public class WizardController implements Initializable {
 		}
 	}
 
-	@FXML
-	private ToggleButton btnAdvanced;	
-	
-	@FXML
-	private ScrollPane spAdvanced;
-	
-	//advanced options
-	@FXML
-	private TextField tfAmount;
-	@FXML
-	private TextField tfOutputFolder;
-	@FXML
-	private TextField tfDatabaseURL;
-	@FXML
-	private TextField tfDatabaseDriver;
-	@FXML
-	private TextField tfDatabaseUsername;
-	@FXML
-	private TextField tfDatabasePassword;
-	@FXML
-	private ComboBox<String> cmbStartingStep;
-	@FXML
-	private CheckBox cbAutomaticNextStep;
 }

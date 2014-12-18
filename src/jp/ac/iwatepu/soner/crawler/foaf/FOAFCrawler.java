@@ -31,13 +31,13 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 
 public class FOAFCrawler {
-	Set<String> visited = new HashSet<String>();
-	List<String> toVisit = new LinkedList<String>();
-	File outputDir = new File(Util.getInstance().getInputDirName());
-	int processedNum = 0;
-	int erroredNum = 0;
-	int MAX_THREADS = 10;
-	int MAX_TASKS = 20;
+	private Set<String> visited = new HashSet<String>();
+	private List<String> toVisit = new LinkedList<String>();
+	private File outputDir = new File(Util.getInstance().getInputDirName());
+	private int processedNum = 0;
+	private int erroredNum = 0;
+	private int MAX_THREADS = 10;
+	private int MAX_TASKS = 20;
 	
 	static final Logger logger = LogManager.getLogger("FOAFCrawler");
 
@@ -100,7 +100,7 @@ public class FOAFCrawler {
 		logger.info("Crawling Done.");
 	}
 	
-	public void loadDownloadedPageList() {		
+	private void loadDownloadedPageList() {		
 		if (outputDir.list().length > 0) {
 			logger.info("Loading downloaded file list...");
 		}
@@ -119,84 +119,84 @@ public class FOAFCrawler {
 		}
 	}
 	
-	protected synchronized void addFoafLink(String seeAlsoStr) {
+	private synchronized void addFoafLink(String seeAlsoStr) {
 		if (!visited.contains(seeAlsoStr) && !toVisit.contains(seeAlsoStr)) {
 			toVisit.add(seeAlsoStr);
 		}
 	}
-}
 
-class ProcessingJob implements Runnable {
-	FOAFCrawler shared;
-	URL foafPageURL;
-	boolean writeToFile;
-	boolean load;
-	
-	public ProcessingJob(FOAFCrawler shared, URL foafPageURL,
-			boolean writeToFile, boolean load) {
-		super();
-		this.shared = shared;
-		this.foafPageURL = foafPageURL;
-		this.writeToFile = writeToFile;
-		this.load = load;
-	}
-
-	public void processPage(URL foafPageURL, boolean writeToFile) throws IOException {
-		OntModel model = loadModel(foafPageURL);
-		if (writeToFile) {
-			File outputFile = new File(shared.outputDir, 
-					URLEncoder.encode(foafPageURL.toString(), "UTF-8"));			
-			model.write(new FileOutputStream(outputFile), "RDF/XML");	
+	class ProcessingJob implements Runnable {
+		FOAFCrawler shared;
+		URL foafPageURL;
+		boolean writeToFile;
+		boolean load;
+		
+		public ProcessingJob(FOAFCrawler shared, URL foafPageURL,
+				boolean writeToFile, boolean load) {
+			super();
+			this.shared = shared;
+			this.foafPageURL = foafPageURL;
+			this.writeToFile = writeToFile;
+			this.load = load;
 		}
 	
-		String queryRequest = "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" +
-				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
-				"SELECT ?seeAlso \n" +
-				"WHERE\n" +
-				" { ?x foaf:knows ?knowsPerson.\n" +
-				"   ?knowsPerson rdfs:seeAlso ?seeAlso " +
-				" }";			
-
-		Query query = QueryFactory.create(queryRequest);
-		QueryExecution qexec = QueryExecutionFactory.create(query, model);
-			
-		ResultSet response = qexec.execSelect();
-
-		while (response.hasNext()) {
-			QuerySolution soln = response.nextSolution();
-			RDFNode seeAlsoLink = soln.get("?seeAlso");
-			String seeAlsoStr = seeAlsoLink.toString();
-
-			shared.addFoafLink(seeAlsoStr);
-		}
-	}
+		private void processPage(URL foafPageURL, boolean writeToFile) throws IOException {
+			OntModel model = loadModel(foafPageURL);
+			if (writeToFile) {
+				File outputFile = new File(shared.outputDir, 
+						URLEncoder.encode(foafPageURL.toString(), "UTF-8"));			
+				model.write(new FileOutputStream(outputFile), "RDF/XML");	
+			}
+		
+			String queryRequest = "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" +
+					"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
+					"SELECT ?seeAlso \n" +
+					"WHERE\n" +
+					" { ?x foaf:knows ?knowsPerson.\n" +
+					"   ?knowsPerson rdfs:seeAlso ?seeAlso " +
+					" }";			
 	
-	public OntModel loadModel(URL url) throws IOException {
-		OntModel model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
-		InputStream inFoafInstance = url.openStream();
-		model.read(inFoafInstance, "http://xmlns.com/foaf/0.1/");
-		inFoafInstance.close();
-		return model;
-	}
-
-	@Override
-	public void run() {
-		try {
-			processPage(this.foafPageURL, this.writeToFile);			
-			if (this.load) {
-				shared.loadedPage(shared.visited.size());
-			} else {
-				shared.downloadedPage(shared.visited.size());
+			Query query = QueryFactory.create(queryRequest);
+			QueryExecution qexec = QueryExecutionFactory.create(query, model);
+				
+			ResultSet response = qexec.execSelect();
+	
+			while (response.hasNext()) {
+				QuerySolution soln = response.nextSolution();
+				RDFNode seeAlsoLink = soln.get("?seeAlso");
+				String seeAlsoStr = seeAlsoLink.toString();
+	
+				shared.addFoafLink(seeAlsoStr);
 			}
-			shared.processedNum++;
-
-			if (shared.processedNum % 100 == 0) {
-				FOAFCrawler.logger.info("Processed: " + shared.processedNum);
+		}
+		
+		private OntModel loadModel(URL url) throws IOException {
+			OntModel model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
+			InputStream inFoafInstance = url.openStream();
+			model.read(inFoafInstance, "http://xmlns.com/foaf/0.1/");
+			inFoafInstance.close();
+			return model;
+		}
+	
+		@Override
+		public void run() {
+			try {
+				processPage(this.foafPageURL, this.writeToFile);			
+				if (this.load) {
+					shared.loadedPage(shared.visited.size());
+				} else {
+					shared.downloadedPage(shared.visited.size());
+				}
+				shared.processedNum++;
+	
+				if (shared.processedNum % 100 == 0) {
+					FOAFCrawler.logger.info("Processed: " + shared.processedNum);
+				}
+			} catch (Exception e) {
+				shared.erroredNum++;						
+				FOAFCrawler.logger.warn("Error parsing: " + foafPageURL);
+				FOAFCrawler.logger.warn(e);
 			}
-		} catch (Exception e) {
-			shared.erroredNum++;						
-			FOAFCrawler.logger.warn("Error parsing: " + foafPageURL);
-			FOAFCrawler.logger.warn(e);
 		}
 	}
 }

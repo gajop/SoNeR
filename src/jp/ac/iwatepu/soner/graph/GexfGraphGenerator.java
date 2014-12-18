@@ -26,8 +26,8 @@ import jp.ac.iwatepu.soner.ranking.Person;
 import jp.ac.iwatepu.soner.synonym.SynonymMerge;
 
 public class GexfGraphGenerator {
-	File outputFile;
-	static final Logger logger = LogManager.getLogger("GexfGraphGenerator");
+	private File outputFile;
+	private static final Logger logger = LogManager.getLogger("GexfGraphGenerator");
 	
 	public GexfGraphGenerator(File outputFile) {
 		super();
@@ -70,8 +70,6 @@ public class GexfGraphGenerator {
 			Person person = people[i];
 			Node personNode = graph.createNode(String.valueOf(i));
 			personNode.setLabel(person.getLocalURL());
-				//	.addValue(attIndegree, "1");
-			//gephi.getShapeEntity().setNodeShape(NodeShape.DIAMOND).setUri("GephiURI");
 			nodeMap.put(i, personNode);
 		}
 		

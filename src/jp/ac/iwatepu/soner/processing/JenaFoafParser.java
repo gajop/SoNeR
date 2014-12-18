@@ -32,10 +32,12 @@ import com.hp.hpl.jena.util.FileManager;
 public class JenaFoafParser {
 	
 	private OntModel model;
-	String currentDocumentURL;	
-	DBPopulator dbPopulator;
+	private String currentDocumentURL;	
+	private DBPopulator dbPopulator;
+	private int totalDocuments = 0;
+	private int parsedDocuments = 0;
 	
-	static final Logger logger = LogManager.getLogger("JenaFoafParser");
+	private static final Logger logger = LogManager.getLogger("JenaFoafParser");
 	
 	public JenaFoafParser() {
 		try {
@@ -60,24 +62,23 @@ public class JenaFoafParser {
 	
 	private void initializeDatabase() throws Exception {
 		dbPopulator.createTables();
-	}
-	
+	}	
 	
 	private void flushDatabase() throws SQLException {
 		dbPopulator.flushAll(); 
 	}
 	
-	public void loadModel(File modelFile) throws IOException {
+	private  void loadModel(File modelFile) throws IOException {
 		model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
 		InputStream inFoafInstance = FileManager.get().open(modelFile.getAbsolutePath());
 		model.read(inFoafInstance, "http://xmlns.com/foaf/0.1/");
 		inFoafInstance.close();
 	}	
 	
-	public void parsedDocument(int totalDocuments, int parsedDocuments) {		
+	protected void parsedDocument(int totalDocuments, int parsedDocuments) {		
 	}
 	
-	public void parseCurrentModel() {
+	private void parseCurrentModel() {
 		String personClass = "Person";
 		String query = "SELECT ?person " +
 				"WHERE {" +
@@ -206,8 +207,6 @@ public class JenaFoafParser {
 		parser.run();
 	}
 	
-	int totalDocuments = 0;
-	int parsedDocuments = 0;
 	public void run() throws Exception {
 		ArrayList<File> allFiles = new ArrayList<File>();
 							

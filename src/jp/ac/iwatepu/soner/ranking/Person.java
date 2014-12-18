@@ -1,10 +1,11 @@
 package jp.ac.iwatepu.soner.ranking;
 
 public class Person {
-	int id;
-	String localURL;
-	String context;
-	boolean isValidURL;
+	private int id;
+	private String localURL;
+	private String context;
+	private boolean isValidURL;
+	
 	public int getId() {
 		return id;
 	}

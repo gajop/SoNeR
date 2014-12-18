@@ -1,8 +1,8 @@
 package jp.ac.iwatepu.soner.synonym;
 
 public class SamePair {
-	int id1;
-	int id2;
+	public int id1;
+	public int id2;
 	public SamePair(int id1, int id2) {
 		super();
 		if (id1 >= id2) {
@@ -13,18 +13,7 @@ public class SamePair {
 			this.id2 = id1;
 		}
 	}
-	public int getId1() {
-		return id1;
-	}
-	public void setId1(int id1) {
-		this.id1 = id1;
-	}
-	public int getId2() {
-		return id2;
-	}
-	public void setId2(int id2) {
-		this.id2 = id2;
-	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

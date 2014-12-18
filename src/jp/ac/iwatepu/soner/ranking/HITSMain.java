@@ -15,7 +15,7 @@ public class HITSMain {
 	private boolean useSynonyms = false;
 	private boolean withAttributeMatching = false;
 	private boolean onlyWithAttributeMatching = false;
-	public List<HITSResult> results;
+	private List<HITSResult> results;
 	
 	private static final Logger logger = LogManager.getLogger("HITS");
 	
@@ -24,6 +24,10 @@ public class HITSMain {
 		hitsMain.run();
 	}
 	
+	public List<HITSResult> getResults() {
+		return results;
+	}
+
 	public void run() throws Exception {
 		results = new LinkedList<HITSResult>();
 		
@@ -89,14 +93,19 @@ public class HITSMain {
 	public double totalDifferenceAuths[] = new double[COMPARISON_AMOUNT];
 	public double averageDifferenceAuths[] = new double[COMPARISON_AMOUNT];
 	public int totalDifferentAuths[] = new int[COMPARISON_AMOUNT];
+	private int checkTop = 1000;
+	
+	public int getCheckTop() {
+		return checkTop;
+	}
+
 	private void printDifference(HITSResult result1, HITSResult result2) {
 		double authsWithoutSynonyms[] = result1.auths;
 		double hubsWithoutSynonyms [] = result1.hubs;
 		
 		double authsWithSynonyms [] = result2.auths;
 		double hubsWithSynonyms [] = result2.hubs;
-		
-		int checkTop = 10000;
+				
 		if (checkTop <= 0) {
 			checkTop = result1.hubs.length;
 		} else {
@@ -121,7 +130,7 @@ public class HITSMain {
 			this.totalDifferentHubs[calculatedAmount] = totalDifferentRank;
 			this.averageDifferenceHubs[calculatedAmount] = averageDifference;
 			logger.info("Total difference: " + totalDifference + " average difference: " + averageDifference + 
-					" " + totalDifference / sumWithoutSynonyms * 100 + "%" + " different rank: " + totalDifferentRank  + " / " + result1.authIndexes.length);
+					" " + totalDifference / sumWithoutSynonyms * 100 + "%" + " different rank: " + totalDifferentRank  + " / " + checkTop);
 		}
 		
 		logger.info("HUBS:");
@@ -143,7 +152,7 @@ public class HITSMain {
 			this.averageDifferenceAuths[calculatedAmount] = averageDifference;
 			calculatedAmount++;
 			logger.info("Total difference: " + totalDifference + " average difference: " + averageDifference + 
-					" " + totalDifference / sumWithoutSynonyms * 100 + "%" + " different rank: " + totalDifferentRank + " / " + result1.hubIndexes.length);
+					" " + totalDifference / sumWithoutSynonyms * 100 + "%" + " different rank: " + totalDifferentRank + " / " + checkTop);
 		}
 	}
 

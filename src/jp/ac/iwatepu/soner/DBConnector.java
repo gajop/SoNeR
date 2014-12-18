@@ -8,11 +8,11 @@ import jp.ac.iwatepu.soner.synonym.SamePair;
 public class DBConnector {
 	private static DBConnector instance;
 	private String connectionPath;
-	boolean cacheResults = true;
-	int knownPeopleSize = -1;
-	int peopleSize = -1;
-	int synonymSize = -1;
-	int peopleSame = -1;
+	private boolean cacheResults = true;
+	private int knownPeopleSize = -1;
+	private int peopleSize = -1;
+	private int synonymSize = -1;
+	private int peopleSame = -1;
 	
 	public static DBConnector getInstance() {
 		if (instance == null) {
@@ -26,7 +26,10 @@ public class DBConnector {
 		return instance;
 	}	
 	
-	public void init() throws SQLException, ClassNotFoundException {
+	private DBConnector() {		
+	}
+	
+	private void init() throws SQLException, ClassNotFoundException {
 		Class.forName(Util.getInstance().getDbDriver());
 		connectionPath = Util.getInstance().getDbURL() + "?user=" + Util.getInstance().getDbUser() + "&password=" + Util.getInstance().getDbPassword();
 	}
@@ -388,18 +391,19 @@ public class DBConnector {
 
 		HashSet<SamePair> values = new HashSet<SamePair>();
 		
-		for (String tag : Util.getInstance().getTags()) {
+		for (String tag : Util.getInstance().getTags()) {				
+			String query = "select distinct  pm1.personid, pm2.personid from peopleuri_modified as pm1, peopleuri_modified as pm2, " +
+					tag + "_modified as tag1, " + tag + "_modified as tag2" + " WHERE " +
+					"pm1.validUrl and pm2.validUrl and " +
+					"pm1.personid = tag1.personid and " +
+					"pm2.personid = tag2.personid and " +
+					"pm1.personid != pm2.personid and tag1.value is not null and tag2.value is not null and " +
+					"(tag1.value = tag2.value)";
+			
 			// "homepage" tag tends to be incorrect and points to the FOAF specification
 			if (tag.equals("homepage")) {
-				continue;
+				query = query + " and tag1.value != 'http://xmlns.com/foaf/0.1/'"; 
 			}
-			String query = "select distinct  pm1.personid, pm2.personid from peopleuri_modified as pm1, peopleuri_modified as pm2, " +
-					tag + "_modified as " + tag  + "1, " + tag + "_modified as " + tag  + "2" + " WHERE " +
-					"pm1.validUrl and pm2.validUrl and " +
-					"pm1.personid = " + tag + "1.personid and " +
-					"pm2.personid = " + tag + "2.personid and " +
-					"pm1.personid != pm2.personid and " + tag + "1.value is not null and " + tag + "2.value is not null and " +
-					"(" + tag + "1.value = " + tag + "2.value)";
 
 			PreparedStatement prep = conn.prepareStatement(query);
 			ResultSet rs = prep.executeQuery();
@@ -415,8 +419,8 @@ public class DBConnector {
 		{
 			int i = 0;
 			for (SamePair pair : values) { 
-				sameNames[i] = pair.getId1();
-				sameNames[i+1] = pair.getId2();
+				sameNames[i] = pair.id1;
+				sameNames[i+1] = pair.id2;
 				i += 2;
 			}
 		}		
@@ -424,11 +428,4 @@ public class DBConnector {
 		return sameNames;
 	}
 	
-	public static void main(String[] args) throws Exception {		
-		DBConnector.getInstance().run();
-	}
-	
-	private void run() throws Exception {
-		this.getConnection();
-	}
 }
