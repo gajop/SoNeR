@@ -84,21 +84,6 @@ public class PageRankMain {
 
 		PageRankResult result = pr.run(peopleSize, knownPeopleIds, initialPR);
 		
-	/*	for (int index : result.getIndexes()) {
-			try {
-				System.out.println(DBConnector.getInstance().getPersonURI(index));
-				System.out.println(DBConnector.getInstance().getPersonContext(index));
-				String personName = DBConnector.getInstance().getPersonName(index);
-				System.out.println(personName);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}			
-		}*/
-		
 		return result;
 	}	
 	
@@ -129,8 +114,7 @@ public class PageRankMain {
 		int totalDifferentRank = 0;
 		
 		for (int i = 0; i < checkTop; i++) {
-			totalDifferentRank += (result1.indexes[i] != result2.indexes[i])?1:0;
-		//	System.out.println(resultWithoutSynonyms.indexes[i] + " " + resultWithSynonyms.indexes[i]);
+			totalDifferentRank += (result1.indexes[i] != result2.indexes[i])?1:0;			
 		}
 		
 		this.totalDifference[calculatedAmount] = totalDifference / sumWithoutSynonyms * 100;

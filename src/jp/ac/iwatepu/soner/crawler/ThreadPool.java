@@ -8,7 +8,6 @@ public class ThreadPool {
 
 	private ArrayBlockingQueue<Runnable> taskQueue = null;
 	private List<PoolThread> threads = new ArrayList<PoolThread>();	
-	private boolean isBusy = false;
 	int busyCount = 0;
 
 	public ThreadPool(int noOfThreads, int maxNoOfTasks){
@@ -24,7 +23,6 @@ public class ThreadPool {
 
 	public synchronized void execute(Runnable task){
 		try {
-			isBusy = true;
 			this.taskQueue.put(task);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -45,12 +43,9 @@ public class ThreadPool {
 
 	public void done() {
 		busyCount--;
-		if (busyCount == 0 && taskQueue.isEmpty()) {
-			isBusy = false;
-		}
 	}
 	
 	public boolean isBusy() {
-		return isBusy;
+		return (busyCount == 0 && taskQueue.isEmpty());			
 	}
 }

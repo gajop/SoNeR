@@ -385,13 +385,14 @@ public class DBConnector {
 		return values;
 	}
 	
-	public int[] getSameNames() throws SQLException, ClassNotFoundException {
+	public int[] getPeopleWithSimilarAttributes() throws SQLException, ClassNotFoundException {
 		Connection conn = getConnection();
 
 		HashSet<SamePair> values = new HashSet<SamePair>();
 		
 		for (String tag : Util.getInstance().getTags()) {
-			if (tag.equals("knows") || tag.equals("homepage")) { 
+			// "homepage" tag tends to be incorrect
+			if (tag.equals("homepage")) {
 				continue;
 			}
 			/*String query = "select distinct  pm1.personid, pm2.personid from peopleuri_modified as pm1, peopleuri_modified as pm2, " +
@@ -465,10 +466,6 @@ public class DBConnector {
 		
 		
 		return sameNames;
-	}
-	
-	public int[] getPotentialCandidates() throws SQLException, ClassNotFoundException {
-		return getSameNames();
 	}
 	
 	public static void main(String[] args) throws Exception {		

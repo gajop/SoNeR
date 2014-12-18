@@ -56,6 +56,10 @@ public class FOAFCrawler {
 	public int getErroredNum() {
 		return erroredNum;
 	}
+	
+	public int getProcessedNum() {
+		return processedNum;
+	}
 
 
 	public void run() {
@@ -81,7 +85,7 @@ public class FOAFCrawler {
 			try {
 				threadPool.execute(new ProcessingJob(this, new URL(top), true, false));
 			} catch (MalformedURLException e1) {
-				e1.printStackTrace();
+				logger.warn("Error: invalid URL");
 			}
 			while (threadPool.isBusy() && toVisit.isEmpty()) {
 				try {
@@ -178,13 +182,13 @@ class ProcessingJob implements Runnable {
 	@Override
 	public void run() {
 		try {
-			processPage(this.foafPageURL, this.writeToFile);
-			shared.processedNum++;
+			processPage(this.foafPageURL, this.writeToFile);			
 			if (this.load) {
 				shared.loadedPage(shared.visited.size());
 			} else {
 				shared.downloadedPage(shared.visited.size());
 			}
+			shared.processedNum++;
 
 			if (shared.processedNum % 100 == 0) {
 				FOAFCrawler.logger.info("Processed: " + shared.processedNum);

@@ -10,6 +10,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import jp.ac.iwatepu.soner.DBPopulator;
 import jp.ac.iwatepu.soner.Util;
 
@@ -31,6 +34,8 @@ public class JenaFoafParser {
 	private OntModel model;
 	String currentDocumentURL;	
 	DBPopulator dbPopulator;
+	
+	static final Logger logger = LogManager.getLogger("JenaFoafParser");
 	
 	public JenaFoafParser() {
 		try {
@@ -86,7 +91,7 @@ public class JenaFoafParser {
 				"}";
 		try {
 			if (!runQuery(query, model)) {
-				System.out.println("no human found: ");
+				logger.info("no human found: ");
 				printOWLModel();
 			}
 		} catch (SQLException e) {
@@ -144,9 +149,7 @@ public class JenaFoafParser {
 					dbPopulator.insertURI(personIdString, currentDocumentURL);
 				}
 				
-				if (Util.getInstance().isDEBUG()) {
-					System.out.println(soln.toString());
-				}
+				logger.debug(soln.toString());
 			}
 		} finally {
 			qexec.close();
@@ -183,9 +186,7 @@ public class JenaFoafParser {
 					}
 				}
 				
-				if (Util.getInstance().isDEBUG()) {
-					System.out.println(soln.toString());
-				}
+				logger.debug(soln.toString());
 			}
 		} finally {
 			qexec.close();
@@ -234,8 +235,8 @@ public class JenaFoafParser {
     		} catch (Exception ex) {
     			currentDocumentURL = file.getName();
     		}
-    		System.out.println(currentDocumentURL);
-    		System.out.println("Loading: " + (i + 1) + "/"  + files.length + " " + file.getAbsolutePath() + "...");
+    		logger.info(currentDocumentURL);
+    		logger.info("Loading: " + (i + 1) + "/"  + files.length + " " + file.getAbsolutePath() + "...");
     		try {
 	    		loadModel(file);
 	    		parseCurrentModel();
@@ -251,9 +252,9 @@ public class JenaFoafParser {
     		parsedDocuments = i+1;
     		parsedDocument(totalDocuments, parsedDocuments);    		
     	}
-    	System.out.println("Flushing!");
+    	logger.info("Flushing!");
     	flushDatabase();
-    	System.out.println("Finalizing database!");
+    	logger.info("Finalizing database!");
     	finalizeDatabase();
     	if (totalErrors > 0) {
     		System.err.println("Total errors: " + totalErrors + ":");
@@ -261,9 +262,9 @@ public class JenaFoafParser {
     			System.err.println(file.getAbsolutePath());
     		}
     	} else {
-    		System.out.println("No errors.");
+    		logger.info("No errors.");
     	}
-    	System.out.println("Done!");
+    	logger.info("Done!");
 	}
 	
 }

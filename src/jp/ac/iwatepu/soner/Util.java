@@ -13,7 +13,6 @@ public class Util {
 	String inputDirName;
 	String crawlerStartURL;
 	int crawlerMaxPages;
-	public boolean DEBUG;
 	String dbURL;
 	String dbUser;
 	String dbPassword;
@@ -56,10 +55,6 @@ public class Util {
 
 	public String getDbPassword() {
 		return dbPassword;
-	}
-
-	public boolean isDEBUG() {
-		return DEBUG;
 	}
 
 	public String getInputDirName() {
@@ -130,7 +125,6 @@ public class Util {
 			dbURL = prop.getProperty("db_url");
 			dbUser = prop.getProperty("db_user");
 			dbPassword = prop.getProperty("db_password");
-			DEBUG = Boolean.valueOf(prop.getProperty("debug"));
 			crawlerStartURL = prop.getProperty("crawler_start_url");
 			crawlerMaxPages = Integer.valueOf(prop.getProperty("crawler_max_pages"));
 		} catch (IOException ex) {
@@ -175,39 +169,7 @@ public class Util {
 		}
 		return sum;
 	}
-	/*
-	 * TODO: needed?
-	public int getDistance(String first, String second) {
-		int m = first.length();
-		int n = second.length();
-		int d[][] = new int[m+1][n+1];
-		for (int i = 0; i < m; i++) {
-			d[i][0] = i;
-		}
-		for (int j = 0; j < n; j++) {
-			d[0][j] = j;
-		}
 
-		for (int i = 1; i < m; i++) {
-			for (int j = 1; j < n; j++) {				
-				if (first.charAt(i-1) == second.charAt(j-1)) {
-					d[i][j] = d[i-1][j-1];
-				} else {
-					d[i][j] = Math.min(d[i-1][j-1] + 1 , Math.min(d[i-1][j] + 1,
-									   d[i][j-1] + 1));
-				}
-			}
-		}
-		for (int i = 0; i < m+1; i++) {
-			for (int j = 0; j < n+1; j++) {	
-				System.out.print(d[i][j] + " ");
-			}
-			System.out.println();
-		}
-		System.out.println(d[m][n]);
-		System.out.println(d.length + " " + d[0].length + " " + m + " " + n);
-		return d[m-1][n-1];
-	}*/
 }
 
 class Pair {

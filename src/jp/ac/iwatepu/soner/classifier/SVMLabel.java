@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import jp.ac.iwatepu.soner.DBConnector;
 
 public class SVMLabel {
@@ -19,6 +22,7 @@ public class SVMLabel {
 	
 	public enum LabelResult { SAME, DIFFERENT, SKIP, END };
 	
+	static final Logger logger = LogManager.getLogger("SVM");
 	/**
 	 * @param args
 	 */
@@ -30,17 +34,17 @@ public class SVMLabel {
 	public LabelResult isSame(int i) throws Exception {
 		int id1 = sameNames[i];
 		int id2 = sameNames[i+1];
-		System.out.println(id1 + " " + id2);
+		logger.info(id1 + " " + id2);
 		
 		String uri1 = DBConnector.getInstance().getPersonURI(id1);
 		String uri2 = DBConnector.getInstance().getPersonURI(id2);
-		System.out.println(uri1 + " ||| " + uri2);
+		logger.info(uri1 + " ||| " + uri2);
 		for (int j = 0; j < tags.length; j++) {
 			String tag = tags[j];
 			String val1 = values[j][id1];
 			String val2 = values[j][id2];
 			if (!val1.equals("") || !val2.equals("")) {
-				System.out.println(tag + ":| " + val1 + " ||| " + val2);
+				logger.info(tag + ":| " + val1 + " ||| " + val2);
 			}
 		}
 		boolean parsed = false;
@@ -62,8 +66,8 @@ public class SVMLabel {
 	}
 
 	public void run() throws Exception {
-		sameNames = DBConnector.getInstance().getSameNames();
-		System.out.println(sameNames.length);	
+		sameNames = DBConnector.getInstance().getPeopleWithSimilarAttributes();
+		logger.info(sameNames.length);	
 		
 		svmTrain = new SVMTrain();
 		svmTrain.fetch();

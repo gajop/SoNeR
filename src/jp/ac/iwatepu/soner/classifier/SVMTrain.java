@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.Util;
 import libsvm.svm;
@@ -21,6 +24,8 @@ public class SVMTrain {
 	int peopleSize = 0;
 	public String[] tags = Util.getInstance().getTags();
 
+	static final Logger logger = LogManager.getLogger("FOAFCrawler");
+	
 	/**
 	 * @param args
 	 * @throws Exception
@@ -32,7 +37,7 @@ public class SVMTrain {
 	
 	public void fetch() throws Exception {
 		peopleSize = DBConnector.getInstance().getPeopleSize();
-		System.out.println("Fetching from DB...");
+		logger.info("Fetching from DB...");
 		HashMap<String, String[]> tagMapping = new HashMap<String, String[]>();
 		values = new String[tags.length][];
 		for (int i = 0; i < tags.length; i++) {
@@ -41,7 +46,7 @@ public class SVMTrain {
 			tagMapping.put(tag, fieldValue);
 			values[i] = fieldValue;
 		}
-		System.out.println("Fetching from DB done.");
+		logger.info("Fetching from DB done.");
 	}
 
 	public void run() throws Exception {
@@ -55,7 +60,7 @@ public class SVMTrain {
 			BufferedReader br = new BufferedReader(new FileReader(labelFile));		
 			String line = null;
 			while ((line = br.readLine()) != null) {
-				System.out.println(line);
+				logger.info(line);
 				String[] parts = line.split(",");
 				int firstId = Integer.valueOf(parts[0]);
 				int secondId = Integer.valueOf(parts[1]);
@@ -120,9 +125,9 @@ public class SVMTrain {
 			}
 		}
 		
-		System.out.println("Training SVM...");
+		logger.info("Training SVM...");
 		model = svm.svm_train(prob, param);
-		System.out.println("Training complete");
+		logger.info("Training complete");
 	}
 	
 	public boolean arePairs(int id1, int id2) {		

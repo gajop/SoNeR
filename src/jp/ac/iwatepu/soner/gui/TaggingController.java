@@ -9,6 +9,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,6 +25,7 @@ import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.classifier.SVMTrain;
 
 public class TaggingController implements Initializable {
+	private static final Logger logger = LogManager.getLogger("TaggingController");
 	
 	protected int[] sameNames;
 	protected SVMTrain svmTrain;
@@ -61,11 +65,11 @@ public class TaggingController implements Initializable {
 		});
 		
 		try {
-			sameNames = DBConnector.getInstance().getSameNames();
+			sameNames = DBConnector.getInstance().getPeopleWithSimilarAttributes();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		System.out.println(sameNames.length);	
+		logger.debug("Candidates: " + sameNames.length);	
 		
 		svmTrain = new SVMTrain();
 		try {
@@ -106,12 +110,16 @@ public class TaggingController implements Initializable {
 	protected Button btnYes;
 	@FXML
 	protected Button btnNo;
+	@FXML
+	protected Label lblSynonyms;
 	
 	public void displayPerson() {
+		spAttributes.setVvalue(0);
 		if (currentIndex+1 >= sameNames.length) {
 			btnYes.setDisable(true);
 			btnNo.setDisable(true);
 			currentIndex -= 2;
+			lblSynonyms.setText("Tagging complete.");
 			return;
 		}
 		
@@ -123,7 +131,8 @@ public class TaggingController implements Initializable {
 			String val2 = values[j][id2];
 			person1Tags.get(tag).setText(val1);
 			person2Tags.get(tag).setText(val2);
-		}
+		}		
+		lblSynonyms.setText("Are these people synonyms? (" + (currentIndex/2+1) + "/" + (sameNames.length/2) + ")");		
 	}
 
 	protected String nextStepName() {				 

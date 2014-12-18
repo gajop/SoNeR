@@ -2,12 +2,17 @@ package jp.ac.iwatepu.soner.classifier;
 
 import java.util.Vector;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.Util;
 
 public class SVM {
 	String[] tags = Util.getInstance().getTags();
 
+	static final Logger logger = LogManager.getLogger("SVM");
+	
 	/**
 	 * @param args
 	 * @throws Exception 
@@ -23,17 +28,17 @@ public class SVM {
 		//String[][] values = svmTrain.values;
 		
 		Vector<Integer> pairs = new Vector<Integer>();
-		int [] potentialCandidates = DBConnector.getInstance().getPotentialCandidates();
+		int [] potentialCandidates = DBConnector.getInstance().getPeopleWithSimilarAttributes();
 		int potentialCandidatesSize = potentialCandidates.length / 2;
 		
-		System.out.println("Total potential candidates: " + potentialCandidatesSize);
+		logger.info("Total potential candidates: " + potentialCandidatesSize);
 		int pairAmount = 0;
 		int percent = potentialCandidates.length / 100;
 		for (int i = 0; i < potentialCandidates.length; i += 2) {
 			int id1 = potentialCandidates[i];
 			int id2 = potentialCandidates[i+1];
 			if (percent != 0 && i % percent == 0) {
-				System.out.println((i / percent) + "%");
+				logger.info((i / percent) + "%");
 			}
 			if (svmTrain.arePairs(id1, id2)) {
 				pairs.add(id1);
@@ -65,18 +70,18 @@ public class SVM {
 				if (totalKnownId1.length < 1 || totalKnownId2.length < 1) {				
 					continue;
 				}
-				System.out.println(totalKnownId1 + " " + totalKnownId2);
+				logger.info(totalKnownId1 + " " + totalKnownId2);
 				
-				System.out.println(uri1 + " ||| " + uri2);
+				logger.info(uri1 + " ||| " + uri2);
 				for (int j = 0; j < tags.length; j++) {
 					String tag = tags[j];
 					String val1 = values[j][id1];
 					String val2 = values[j][id2];
 					if (!val1.equals("") || !val2.equals("")) {
-						System.out.println(tag + ":| " + val1 + " ||| " + val2);
+						logger.info(tag + ":| " + val1 + " ||| " + val2);
 					}					
 				}				
-				System.out.println("Known people:");
+				logger.info("Known people:");
 				for (int[] totalKnown : new int [][]{totalKnownId1, totalKnownId2}) {
 					for (int j = 0; j < totalKnown.length; j += 2) {
 						int knownId1 = totalKnown[j];
@@ -84,18 +89,18 @@ public class SVM {
 						
 						String knownURI1 = DBConnector.getInstance().getPersonURI(knownId1);
 						String knownURI2 = DBConnector.getInstance().getPersonURI(knownId2);
-						System.out.print(knownURI1 + " ");
+						logger.info(knownURI1 + " ");
 						for (int k = 0; k < 50 - knownURI1.length(); k++) {
-							System.out.print(" ");
+							logger.info(" ");
 						}
-						System.out.println(knownURI2);
+						logger.info(knownURI2);
 					}
 				}
-				System.out.println();
-				System.out.println();*/
+				logger.info();
+				logger.info();*/
 			}
 		}
-		System.out.println("Pairs: " + pairAmount + "/" + potentialCandidates.length);
+		logger.info("Pairs: " + pairAmount + "/" + potentialCandidates.length);
 		int[] pairsArray = new int[pairs.size()];
 		for (int i = 0; i < pairs.size(); i++) {
 			pairsArray[i] = pairs.get(i);

@@ -18,13 +18,16 @@ import java.io.Writer;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.ranking.Person;
 import jp.ac.iwatepu.soner.synonym.SynonymMerge;
 
 public class GexfGraphGenerator {
 	File outputFile;
-	
+	static final Logger logger = LogManager.getLogger("GexfGraphGenerator");
 	
 	public GexfGraphGenerator(File outputFile) {
 		super();
@@ -72,7 +75,7 @@ public class GexfGraphGenerator {
 			nodeMap.put(i, personNode);
 		}
 		
-		System.out.println("Merging synonyms...");
+		logger.info("Merging synonyms...");
 		SynonymMerge synMerge = new SynonymMerge(true, false);
 		try {
 			synMerge.applySynonymsToKnownRelationships(knows);
@@ -97,7 +100,7 @@ public class GexfGraphGenerator {
 		try {
 			out =  new FileWriter(outputFile, false);
 			graphWriter.writeToStream(gexf, out, "UTF-8");
-			System.out.println(outputFile.getAbsolutePath());
+			logger.info(outputFile.getAbsolutePath());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

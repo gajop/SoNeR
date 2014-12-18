@@ -31,6 +31,7 @@ public class CrawlingController extends AbstractWizardStepController {
 				foafCrawler.run();
 				updateMessage("Done");
 				updateProgress(100, 100);
+				addOutput("Total downloads: " + foafCrawler.getProcessedNum());
 				addOutput("Total errors: " + foafCrawler.getErroredNum());
 				return 0;
 		    }
