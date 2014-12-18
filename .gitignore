@@ -7,3 +7,6 @@ bin
 # default download directory
 input
 /target/
+
+#manually tagged synonyms
+labels.csv

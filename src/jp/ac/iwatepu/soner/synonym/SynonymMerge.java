@@ -29,6 +29,7 @@ public class SynonymMerge {
 		synMerge.run();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public int[] run() throws Exception {
 		Util.getInstance().logIfDebug("Staritng SynonymMerge Main...");
 		Util.getInstance().logIfDebug("Loading from DB...");
