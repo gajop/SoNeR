@@ -66,10 +66,6 @@ public class JenaFoafParser {
 	private void flushDatabase() throws SQLException {
 		dbPopulator.flushAll(); 
 	}
-
-	private void finalizeDatabase() {
-		//FIXME: not using this?
-	}
 	
 	public void loadModel(File modelFile) throws IOException {
 		model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
@@ -101,7 +97,6 @@ public class JenaFoafParser {
 		}	
 		parseTag(query, personClass, "knows");
 		parseTag(query, personClass, "seeAlso");
-		//parseTag(query, personClass, "sameAs"); // TODO: what about sameAs?
 		return;
 	}
 	
@@ -240,8 +235,7 @@ public class JenaFoafParser {
 	    		parseCurrentModel();
 	    		closeModel();
     		} catch (Exception ex) {
-    			System.err.println("Error parsing file " + file.getAbsolutePath());
-    			//ex.printStackTrace();
+    			logger.warn("Error parsing file " + file.getAbsolutePath());
     			totalErrors++;
     			errorFiles.add(file);
     		} finally { 
@@ -252,12 +246,10 @@ public class JenaFoafParser {
     	}
     	logger.info("Flushing!");
     	flushDatabase();
-    	logger.info("Finalizing database!");
-    	finalizeDatabase();
     	if (totalErrors > 0) {
-    		System.err.println("Total errors: " + totalErrors + ":");
+    		logger.warn("Total errors: " + totalErrors + ":");
     		for (File file : errorFiles) {
-    			System.err.println(file.getAbsolutePath());
+    			logger.warn(file.getAbsolutePath());
     		}
     	} else {
     		logger.info("No errors.");

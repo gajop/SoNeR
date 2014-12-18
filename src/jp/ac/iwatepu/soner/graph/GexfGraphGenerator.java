@@ -90,7 +90,7 @@ public class GexfGraphGenerator {
 			try {
 				nodeMap.get(person1).connectTo(nodeMap.get(person2));
 			} catch (Exception ex) {
-				System.err.println("Already exists: " + person1 + " -> " + person2);
+				logger.warn("Already exists: " + person1 + " -> " + person2);
 			}
 		}
 

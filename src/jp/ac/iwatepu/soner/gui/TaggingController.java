@@ -92,7 +92,6 @@ public class TaggingController implements Initializable {
 			person2Tags.put(tag, tf2);
 			gpContent.addRow(row++, new Label(tag + ": "), tf1, tf2);
 		}
-		//spSplitPane
 		
 		displayPerson();
 	}
@@ -127,8 +126,8 @@ public class TaggingController implements Initializable {
 		int id2 = sameNames[currentIndex+1];
 		for (int j = 0; j < tags.length; j++) {
 			String tag = tags[j];
-			String val1 = values[j][id1];
-			String val2 = values[j][id2];
+			String val1 = values[j][id1 - 1];
+			String val2 = values[j][id2 - 1];
 			person1Tags.get(tag).setText(val1);
 			person2Tags.get(tag).setText(val2);
 		}		

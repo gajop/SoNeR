@@ -31,7 +31,7 @@ public class HITS {
 			}
 			for (int personId = 0; personId < graphSize; personId++) {
 				for (int knownPersonId : connections[personId]) {
-					auths[knownPersonId] += hubs[personId];//0.85 * hubs[personId];
+					auths[knownPersonId] += hubs[personId];
 				}
 			}			
 			
@@ -45,11 +45,11 @@ public class HITS {
 			}						
 			
 			for (int personId = 0; personId < graphSize; personId++) {
-				hubs[personId] = 0;//initialValues; FIXME: use initial values?
+				hubs[personId] = 0;
 			}
 			for (int personId = 0; personId < graphSize; personId++) {
 				for (int knownPersonId : connections[personId]) {
-					hubs[personId] += auths[knownPersonId];//0.85 * auths[knownPersonId];
+					hubs[personId] += auths[knownPersonId];
 				}
 			}
 			
@@ -69,7 +69,6 @@ public class HITS {
 		double seconds = (endTime.getTime() - startTime.getTime()) / 1000.0;
 		logger.info("Elapsed time is " + seconds + " seconds.");
 		logger.info("Done");
-		//printTop(auths, hubs);
 		
 		return new HITSResult(Util.getInstance().getTopNIndexes(auths, auths.length), Util.getInstance().getTopNIndexes(hubs, hubs.length), auths, hubs);
 	}

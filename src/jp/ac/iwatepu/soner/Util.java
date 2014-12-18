@@ -18,7 +18,6 @@ public class Util {
 	String dbPassword;
 	String dbDriver;
 	
-	//TODO: maybe extract tags automatically from the Ontology?
 	String [] tags = { 
 			"familyName",
 			"name",
@@ -41,7 +40,6 @@ public class Util {
 			"img",
 			"schoolHomepage",
 			"publications",
-			//"knows",
 	};
 	
 	
@@ -119,7 +117,6 @@ public class Util {
 	        //load a properties file
 			prop.load(new FileInputStream("SoNeR.properties"));
 	
-            //get the property value and print it out
 			inputDirName = prop.getProperty("input_dir");
 			dbDriver = prop.getProperty("db_driver");
 			dbURL = prop.getProperty("db_url");

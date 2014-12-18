@@ -18,10 +18,10 @@ import libsvm.svm_parameter;
 import libsvm.svm_problem;
 
 public class SVMTrain {
-	int pairsSize = 35;
+	int pairsSize;
 	public String[][] values;
 	svm_model model;
-	int peopleSize = 0;
+	int peopleSize;
 	public String[] tags = Util.getInstance().getTags();
 
 	static final Logger logger = LogManager.getLogger("FOAFCrawler");
@@ -139,8 +139,8 @@ public class SVMTrain {
 	private svm_node[] addPair(int firstPersonId, int secondPersonId) {
 		svm_node[] nodes = new svm_node[tags.length];
 		for (int i = 0; i < tags.length; i++) {
-			String firstValue = values[i][firstPersonId];
-			String secondValue = values[i][secondPersonId];
+			String firstValue = values[i][firstPersonId - 1];
+			String secondValue = values[i][secondPersonId - 1];
 			int distance = LevenshteinDistance.computeLevenshteinDistance(
 					firstValue, secondValue);
 			svm_node newNode = new svm_node();

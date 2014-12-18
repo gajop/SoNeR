@@ -8,7 +8,7 @@ import jp.ac.iwatepu.soner.synonym.SamePair;
 public class DBConnector {
 	private static DBConnector instance;
 	private String connectionPath;
-	boolean cacheResults = true; //TODO: should it cache results by default?
+	boolean cacheResults = true;
 	int knownPeopleSize = -1;
 	int peopleSize = -1;
 	int synonymSize = -1;
@@ -142,8 +142,7 @@ public class DBConnector {
 	      "select count(*) from peopleuri_modified");	
 		ResultSet rs = prep.executeQuery();
 		rs.next();
-		//FIXME: this is probably wrong; see code that is affected by it
-		peopleSize = rs.getInt(1) + 1; //helps with the assumption that IDs start with 1
+		peopleSize = rs.getInt(1);
 	    conn.close();	    
 	    return peopleSize;
 	}
@@ -317,7 +316,6 @@ public class DBConnector {
 			Person newPerson = new Person(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4));
 			allPeople[i++] = newPerson;
 		}
-		allPeople[i] = new Person(i, "abcd", "abcd", true); //FIXME: why is the last person being changed?
 		
 	    conn.close();
 		return allPeople;		
@@ -377,7 +375,7 @@ public class DBConnector {
 			int id = rs.getInt(1);
 			String value = rs.getString(2);
 			if (value != null) {
-				values[id]= value;
+				values[id - 1]= value;
 			}			
 		}
 		
@@ -391,17 +389,10 @@ public class DBConnector {
 		HashSet<SamePair> values = new HashSet<SamePair>();
 		
 		for (String tag : Util.getInstance().getTags()) {
-			// "homepage" tag tends to be incorrect
+			// "homepage" tag tends to be incorrect and points to the FOAF specification
 			if (tag.equals("homepage")) {
 				continue;
 			}
-			/*String query = "select distinct  pm1.personid, pm2.personid from peopleuri_modified as pm1, peopleuri_modified as pm2, " +
-					tag + "_modified as " + tag  + "1, " + tag + "_modified as " + tag  + "2" + " WHERE " +
-					"pm1.validUrl and pm2.validUrl and " +
-					"pm1.localURL = " + tag + "1.localURL and " + tag + "1.context = pm1.context and " +
-					"pm2.localURL = " + tag + "2.localURL and " + tag + "2.context = pm2.context and " +
-					"pm1.personid != pm2.personid and " + tag + "1.value is not null and " + tag + "2.value is not null and " +
-					"(" + tag + "1.value = " + tag + "2.value)";*/
 			String query = "select distinct  pm1.personid, pm2.personid from peopleuri_modified as pm1, peopleuri_modified as pm2, " +
 					tag + "_modified as " + tag  + "1, " + tag + "_modified as " + tag  + "2" + " WHERE " +
 					"pm1.validUrl and pm2.validUrl and " +
@@ -409,15 +400,7 @@ public class DBConnector {
 					"pm2.personid = " + tag + "2.personid and " +
 					"pm1.personid != pm2.personid and " + tag + "1.value is not null and " + tag + "2.value is not null and " +
 					"(" + tag + "1.value = " + tag + "2.value)";
-			/*
-			 * FIXME: any way to automatically apply this filter?
-			if (tag.equals("mbox_sha1sum")) { 
-				query = query + " and mbox_sha1sum1.value != '08445a31a78661b5c746feff39a9db6e4e2cc5cf'";
-			} else if (tag.equals("nick")) {
-				query = query + " and nick1.value != 'AutoKake' and nick1.value != 'Kake'";
-			}
-			
-			*/
+
 			PreparedStatement prep = conn.prepareStatement(query);
 			ResultSet rs = prep.executeQuery();
 			while (rs.next()) {
@@ -436,34 +419,7 @@ public class DBConnector {
 				sameNames[i+1] = pair.getId2();
 				i += 2;
 			}
-		}
-		
-		/*
-		 * FIXME: needed?
-		int[] newSameNames = new int[sameNames.length / 2];
-		HashMap<Integer, Set<Integer>> pairs = new HashMap<Integer, Set<Integer>>();
-		int addedSoFar = 0;
-		for (int i = 0; i < sameNames.length; i += 2) {
-			int id1 = sameNames[i];
-			int id2 = sameNames[i+1];
-		
-			Set<Integer> alreadyAdded = pairs.get(id2);
-			if (alreadyAdded != null && alreadyAdded.contains(id1)) {
-				continue;
-			}
-			
-			Set<Integer> checked = pairs.get(id1);
-			if (checked == null) {
-				checked = new HashSet<Integer>();
-				pairs.put(id1, checked);
-			}
-			checked.add(id2);
-			
-			newSameNames[addedSoFar++] = id1;
-			newSameNames[addedSoFar++] = id2;
-		}
-		sameNames = newSameNames;*/
-		
+		}		
 		
 		return sameNames;
 	}

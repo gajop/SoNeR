@@ -10,7 +10,7 @@ public class LevenshteinDistance {
 		str1 = str1.toString().trim();
 		str2 = str2.toString().trim();
 		if (str1 == null || str2 == null || str1.equals("") || str2.equals("")) {
-			return 50; //TODO: get this value from a property file instead?
+			return 50;
 		}
 		int[][] distance = new int[str1.length() + 1][str2.length() + 1];
 

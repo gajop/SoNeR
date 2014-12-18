@@ -37,7 +37,7 @@ public class SynonymMerge {
 	public int[] run() throws Exception {
 		logger.info("Staritng SynonymMerge Main...");
 		logger.info("Loading from DB...");
-		int peopleSize = DBConnector.getInstance().getPeopleSize();
+		int peopleSize = DBConnector.getInstance().getPeopleSize() + 1;
 		int synonymPeople [] = DBConnector.getInstance().getAllSynonyms();			
 		synonymSets = new Set [peopleSize];
 		for (int i = 0; i < synonymSets.length; i++) {

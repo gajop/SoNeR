@@ -60,7 +60,7 @@ public class PageRankMain {
 		PageRank pr = new PageRank();
 		
 		logger.info("Loading from DB...");
-		int peopleSize = DBConnector.getInstance().getPeopleSize();
+		int peopleSize = DBConnector.getInstance().getPeopleSize() + 1; // DB ids start with 1
 		int knownPeople [] = DBConnector.getInstance().getAllKnownRelationships();
 		if (useSynonyms) {
 			logger.info("Merging synonyms...");

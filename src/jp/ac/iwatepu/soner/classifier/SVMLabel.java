@@ -10,8 +10,6 @@ import org.apache.log4j.Logger;
 import jp.ac.iwatepu.soner.DBConnector;
 
 public class SVMLabel {
-	//TODO: put this file in a module instead
-	
 	protected int[] sameNames;
 	protected SVMTrain svmTrain;
 	protected boolean [] matches;

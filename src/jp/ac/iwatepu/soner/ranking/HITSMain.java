@@ -54,7 +54,7 @@ public class HITSMain {
 	
 	public HITSResult runHITS() throws Exception {
 		logger.info("Loading from DB...");
-		int peopleSize = DBConnector.getInstance().getPeopleSize();
+		int peopleSize = DBConnector.getInstance().getPeopleSize() + 1; // DB ids start with 1
 		//int knownPeopleSize = DBConnector.getInstance().getKnownPeopleSize();
 		int knownPeople [] = DBConnector.getInstance().getAllKnownRelationships();
 		if (useSynonyms) {

@@ -245,7 +245,6 @@ public class DBPopulator {
 	
 	public void flushAll() throws SQLException {		
 		flushURIs();
-		//FIXME: replace all these lines with logs instead
 		logger.info("flushed URIs");
 		flushKnowns();
 		logger.info("flushed knowns");
