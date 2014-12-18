@@ -13,8 +13,8 @@ FROM
 WHERE 
   first_person_uri.localurl = peoplesynonym.localurl AND
    (
-    	  (NOT first_person_uri.validURL AND first_person_uri.context = peoplesynonym.context) OR 
-        (first_person_uri.validURL)
+    	(first_person_uri.validURL AND first_person_uri.context = peoplesynonym.context) OR 
+        (NOT first_person_uri.validURL)
     ) AND
   second_person_uri.localurl = peoplesynonym.synonym;
   END
