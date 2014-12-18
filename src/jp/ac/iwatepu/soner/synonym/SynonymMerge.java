@@ -4,8 +4,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import jp.ac.iwatepu.soner.DBConnector;
-import jp.ac.iwatepu.soner.Util;
 import jp.ac.iwatepu.soner.classifier.SVM;
 import jp.ac.iwatepu.soner.ranking.Person;
 
@@ -14,6 +16,8 @@ public class SynonymMerge {
 	Set<Integer> synonymSets [];
 	boolean withAttributeMatching;
 	boolean onlyWithAttributeMatching;
+	
+	private static final Logger logger = LogManager.getLogger("SynonymMerge");
 	
 	public SynonymMerge(boolean withAttributeMatching, boolean onlyWithAttributeMatching) {
 		this.withAttributeMatching = withAttributeMatching;
@@ -31,8 +35,8 @@ public class SynonymMerge {
 	
 	@SuppressWarnings("unchecked")
 	public int[] run() throws Exception {
-		Util.getInstance().logIfDebug("Staritng SynonymMerge Main...");
-		Util.getInstance().logIfDebug("Loading from DB...");
+		logger.info("Staritng SynonymMerge Main...");
+		logger.info("Loading from DB...");
 		int peopleSize = DBConnector.getInstance().getPeopleSize();
 		int synonymPeople [] = DBConnector.getInstance().getAllSynonyms();			
 		synonymSets = new Set [peopleSize];
@@ -43,15 +47,15 @@ public class SynonymMerge {
 		Person[] allPeople = DBConnector.getInstance().getAllPeople();
 		
 		if (!onlyWithAttributeMatching) {
-			Util.getInstance().logIfDebug("Starting the seeAlso merge...");
+			logger.info("Starting the seeAlso merge...");
 			int totalMergedBasedOnSeeAlso = 0;
 			
 			//merge people based on seeAlso
-			Util.getInstance().logIfDebug("Total synonyms: " + synonymPeople.length);
+			logger.info("Total synonyms: " + synonymPeople.length);
 			int part100 = synonymPeople.length / 100;
 			for (int i = 0; i < synonymPeople.length; i += 2) {			
 				if (part100 != 0 && i % part100 == 0) {
-				//	System.out.println("Part " + i * 100.0 / synonymPeople.length + "%");
+					logger.debug("Part " + i * 100.0 / synonymPeople.length + "%");
 				}
 				int firstPersonId = synonymPeople[i];
 				int secondPersonId = synonymPeople[i + 1];
@@ -69,7 +73,7 @@ public class SynonymMerge {
 				}
 			}
 			
-			Util.getInstance().logIfDebug("SeeAlso based merges: " + totalMergedBasedOnSeeAlso);
+			logger.info("SeeAlso based merges: " + totalMergedBasedOnSeeAlso);
 		}
 		
 		if (withAttributeMatching) {
@@ -86,7 +90,7 @@ public class SynonymMerge {
 					synonymSets[firstPersonSubsetId] = synonymSets[secondPersonId];
 				}
 			}
-			Util.getInstance().logIfDebug("Attribute based merges: " + totalMergedBasedOnAttributes);
+			logger.info("Attribute based merges: " + totalMergedBasedOnAttributes);
 		}
 		
 		long totalSize = 0;
@@ -94,8 +98,8 @@ public class SynonymMerge {
 			totalSize += synonymSets[i].size();
 		}
 		
-		Util.getInstance().logIfDebug(totalSize  + " " + synonymSets.length);
-		Util.getInstance().logIfDebug("Average synonym set size is : " + (totalSize * 1.0 / synonymSets.length));
+		logger.info(totalSize  + " " + synonymSets.length);
+		logger.info("Average synonym set size is : " + (totalSize * 1.0 / synonymSets.length));
 		
 		mapping = new int[peopleSize];
 		for (int i = 0; i < synonymSets.length; i++) {

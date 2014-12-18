@@ -1,4 +1,4 @@
-package jp.ac.iwatepu.soner.crawler.foaf;
+package jp.ac.iwatepu.soner.crawler;
 
 import java.util.ArrayList;
 import java.util.List;

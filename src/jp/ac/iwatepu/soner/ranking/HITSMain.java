@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.Util;
 import jp.ac.iwatepu.soner.synonym.SynonymMerge;
@@ -13,6 +16,8 @@ public class HITSMain {
 	private boolean withAttributeMatching = false;
 	private boolean onlyWithAttributeMatching = false;
 	public List<HITSResult> results;
+	
+	private static final Logger logger = LogManager.getLogger("HITS");
 	
 	public static void main(String[] args) throws Exception {
 		HITSMain hitsMain = new HITSMain();
@@ -48,12 +53,12 @@ public class HITSMain {
 	}
 	
 	public HITSResult runHITS() throws Exception {
-		Util.getInstance().logIfDebug("Loading from DB...");
+		logger.info("Loading from DB...");
 		int peopleSize = DBConnector.getInstance().getPeopleSize();
 		//int knownPeopleSize = DBConnector.getInstance().getKnownPeopleSize();
 		int knownPeople [] = DBConnector.getInstance().getAllKnownRelationships();
 		if (useSynonyms) {
-			System.out.println("Merging synonyms...");
+			logger.info("Merging synonyms...");
 			SynonymMerge synMerge = new SynonymMerge(withAttributeMatching, onlyWithAttributeMatching);	
 			synMerge.applySynonymsToKnownRelationships(knownPeople);
 		}
@@ -98,7 +103,7 @@ public class HITSMain {
 			checkTop = Math.min(result1.hubs.length, checkTop);
 		}
 		
-		System.out.println("AUTHS:");
+		logger.info("AUTHS:");
 		{
 			double totalDifference = 0;
 			for (int i = 0; i < checkTop; i++) {
@@ -115,11 +120,11 @@ public class HITSMain {
 			this.totalDifferenceHubs[calculatedAmount] = totalDifference;
 			this.totalDifferentHubs[calculatedAmount] = totalDifferentRank;
 			this.averageDifferenceHubs[calculatedAmount] = averageDifference;
-			System.out.println("Total difference: " + totalDifference + " average difference: " + averageDifference + 
+			logger.info("Total difference: " + totalDifference + " average difference: " + averageDifference + 
 					" " + totalDifference / sumWithoutSynonyms * 100 + "%" + " different rank: " + totalDifferentRank  + " / " + result1.authIndexes.length);
 		}
 		
-		System.out.println("HUBS:");
+		logger.info("HUBS:");
 		{			
 			double totalDifference = 0;
 			for (int i = 0; i < checkTop; i++) {
@@ -137,7 +142,7 @@ public class HITSMain {
 			this.totalDifferentAuths[calculatedAmount] = totalDifferentRank;
 			this.averageDifferenceAuths[calculatedAmount] = averageDifference;
 			calculatedAmount++;
-			System.out.println("Total difference: " + totalDifference + " average difference: " + averageDifference + 
+			logger.info("Total difference: " + totalDifference + " average difference: " + averageDifference + 
 					" " + totalDifference / sumWithoutSynonyms * 100 + "%" + " different rank: " + totalDifferentRank + " / " + result1.hubIndexes.length);
 		}
 	}
@@ -146,18 +151,18 @@ public class HITSMain {
 		int topNum = 10;	
 		//AUTHS
 		int[] topAuths = Util.getInstance().getTopNIndexes(auths, topNum); 
-		System.out.println("Authorities - top " + topNum + " : ");
+		logger.info("Authorities - top " + topNum + " : ");
 		for (int i = 0; i < topNum; i++) {
 			int id = topAuths[i];			
-			System.out.println(id + " " + auths[id] + " " +  " " + DBConnector.getInstance().getPersonURI(id));
+			logger.info(id + " " + auths[id] + " " +  " " + DBConnector.getInstance().getPersonURI(id));
 		}
 		
 		//HUBS
 		int[] topHubs = Util.getInstance().getTopNIndexes(hubs, topNum); 		
-		System.out.println("Hubs - top " + topNum + " : ");
+		logger.info("Hubs - top " + topNum + " : ");
 		for (int i = 0; i < topNum; i++) {
 			int id = topHubs[i];
-			System.out.println(id + " " + hubs[id] + " " +  " " + DBConnector.getInstance().getPersonURI(id));
+			logger.info(id + " " + hubs[id] + " " +  " " + DBConnector.getInstance().getPersonURI(id));
 		}
 	}
 }

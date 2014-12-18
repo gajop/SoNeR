@@ -9,7 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 public class DBPopulator {
+	private static final Logger logger = LogManager.getLogger("DBPopulator");
+	
 	int BASE_BUFFER_SIZE = 100;
 	Map<String, Vector<String>> bufferMap = new HashMap<String, Vector<String>>();
 	
@@ -40,7 +45,7 @@ public class DBPopulator {
 		for (String tag : Util.getInstance().getTags()) {
     		DBConnector.getInstance().createTagTableUnpure(tag);
     	}
-		System.out.println("Created tables");
+		logger.info("Created tables");
 	}
 	
 	public void insertURI(String URI, String context) throws SQLException {
@@ -206,9 +211,9 @@ public class DBPopulator {
 	    	try {
 				new URL(buffer.get(i+1));
 			} catch (MalformedURLException e) {
-				System.err.println("Error parsing: " + buffer.get(i) + " " + buffer.get(i+1) + " " + buffer.get(i+2));
-				System.out.println(i);
-				System.err.println("Error parsing: " + buffer.get(i-3) + " " + buffer.get(i-2) + " " + buffer.get(i-1));
+				logger.error("Error parsing: " + buffer.get(i) + " " + buffer.get(i+1) + " " + buffer.get(i+2));
+				logger.error(i);
+				logger.error("Error parsing: " + buffer.get(i-3) + " " + buffer.get(i-2) + " " + buffer.get(i-1));
 				System.exit(-1);
 			}
 	    	
@@ -241,14 +246,14 @@ public class DBPopulator {
 	public void flushAll() throws SQLException {		
 		flushURIs();
 		//FIXME: replace all these lines with logs instead
-		System.out.println("flushed URIs");
+		logger.info("flushed URIs");
 		flushKnowns();
-		System.out.println("flushed knowns");
+		logger.info("flushed knowns");
 		flushSynonyms();
-		System.out.println("flushed synonyms");
+		logger.info("flushed synonyms");
 		for (String tag : Util.getInstance().getTags()) {
 			flushCustomTag(tag);
 		}
-		System.out.println("flushed tags");
+		logger.info("flushed tags");
 	}
 }

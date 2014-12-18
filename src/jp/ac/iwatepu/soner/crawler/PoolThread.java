@@ -1,4 +1,4 @@
-package jp.ac.iwatepu.soner.crawler.foaf;
+package jp.ac.iwatepu.soner.crawler;
 
 public class PoolThread extends Thread {
 

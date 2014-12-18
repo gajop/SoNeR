@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.Util;
 import jp.ac.iwatepu.soner.synonym.SynonymMerge;
@@ -13,6 +16,8 @@ public class PageRankMain {
 	protected boolean withAttributeMatching = false;
 	protected boolean onlyWithAttributeMatching = false;
 	public List<PageRankResult> results;
+	
+	private static final Logger logger = LogManager.getLogger("PageRank");
 	
 	public static void main(String[] args) throws Exception {
 		PageRankMain prMain = new PageRankMain();
@@ -54,11 +59,11 @@ public class PageRankMain {
 	public PageRankResult runPageRank() throws Exception {
 		PageRank pr = new PageRank();
 		
-		Util.getInstance().logIfDebug("Loading from DB...");
+		logger.info("Loading from DB...");
 		int peopleSize = DBConnector.getInstance().getPeopleSize();
 		int knownPeople [] = DBConnector.getInstance().getAllKnownRelationships();
 		if (useSynonyms) {
-			System.out.println("Merging synonyms...");
+			logger.info("Merging synonyms...");
 			SynonymMerge synMerge = new SynonymMerge(withAttributeMatching, onlyWithAttributeMatching);
 			synMerge.applySynonymsToKnownRelationships(knownPeople);			
 		}
@@ -132,7 +137,7 @@ public class PageRankMain {
 		this.averageDifference[calculatedAmount] = averageDifference;
 		this.totalDifferentRank[calculatedAmount] = totalDifferentRank;
 		calculatedAmount++;
-		System.out.println("Total difference: " + totalDifference + " average difference: " + averageDifference + 
+		logger.info("Total difference: " + totalDifference + " average difference: " + averageDifference + 
 				" " + totalDifference / sumWithoutSynonyms * 100 + "%" + " different rank: " + totalDifferentRank  + " / " + result1.ranks.length);		
 	}	
 }

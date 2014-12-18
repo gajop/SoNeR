@@ -13,10 +13,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-
-
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import jp.ac.iwatepu.soner.Util;
+import jp.ac.iwatepu.soner.crawler.ThreadPool;
 
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
@@ -37,6 +38,8 @@ public class FOAFCrawler {
 	int erroredNum = 0;
 	int MAX_THREADS = 10;
 	int MAX_TASKS = 20;
+	
+	static final Logger logger = LogManager.getLogger("FOAFCrawler");
 
 	public static void main(String[] args) {
 		FOAFCrawler foafCrawler = new FOAFCrawler();
@@ -57,7 +60,7 @@ public class FOAFCrawler {
 
 	public void run() {
 		if (outputDir.exists() && !outputDir.isDirectory()) {
-			System.err.println("Output path is not a folder. Exiting");
+			logger.error("Output path is not a folder. Exiting");
 			System.exit(-1);
 		}
 		if (!outputDir.exists()) {
@@ -67,7 +70,7 @@ public class FOAFCrawler {
 		toVisit.add(Util.getInstance().getCrawlerStartURL());
 				
 		loadDownloadedPageList();
-		System.out.println("Crawling started...");
+		logger.info("Crawling started...");
 		
 		ThreadPool threadPool = new ThreadPool(MAX_THREADS, MAX_TASKS);
 		
@@ -90,12 +93,12 @@ public class FOAFCrawler {
 		}
 		threadPool.stop();			
 
-		System.out.println("Crawling Done.");
+		logger.info("Crawling Done.");
 	}
 	
 	public void loadDownloadedPageList() {		
 		if (outputDir.list().length > 0) {
-			System.out.println("Loading downloaded file list...");
+			logger.info("Loading downloaded file list...");
 		}
 		for (String fileName : outputDir.list()) {
 			try {
@@ -103,11 +106,12 @@ public class FOAFCrawler {
 				visited.add(original);
 				new ProcessingJob(this, new File(outputDir, fileName).toURI().toURL(), false, true).run();
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.warn("Error parsing: " + fileName);
+				logger.warn(e);
 			}			
 		}
 		if (outputDir.list().length > 0) {
-			System.out.println("Loading complete.");
+			logger.info("Loading complete.");
 		}
 	}
 	
@@ -182,12 +186,13 @@ class ProcessingJob implements Runnable {
 				shared.downloadedPage(shared.visited.size());
 			}
 
-			if (shared.processedNum % 100 == 0) {			
-				System.out.println("Processed: " + shared.processedNum);
+			if (shared.processedNum % 100 == 0) {
+				FOAFCrawler.logger.info("Processed: " + shared.processedNum);
 			}
 		} catch (Exception e) {
-			shared.erroredNum++;
-			//e.printStackTrace();
+			shared.erroredNum++;						
+			FOAFCrawler.logger.warn("Error parsing: " + foafPageURL);
+			FOAFCrawler.logger.warn(e);
 		}
 	}
 }

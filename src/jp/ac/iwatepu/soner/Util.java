@@ -65,13 +65,6 @@ public class Util {
 	public String getInputDirName() {
 		return inputDirName;
 	}
-
-	//TODO: change this with a proper logger
-	public void logIfDebug(String line) {
-		if (DEBUG) {
-			System.out.println(line);
-		}
-	}	
 	
 	public String getCrawlerStartURL() {
 		return crawlerStartURL;

@@ -3,25 +3,28 @@ package jp.ac.iwatepu.soner.ranking;
 import java.util.Date;
 import java.util.Vector;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import jp.ac.iwatepu.soner.Util;
 
 public class HITS {
 	int NUM_ITERS = 200;
-	
+	private static final Logger logger = LogManager.getLogger("HITS");
 
 	public HITSResult run(int graphSize, Vector<Integer>[] connections, double initialValues) throws Exception {
-		Util.getInstance().logIfDebug("Staritng HITS Main...");		
+		logger.info("Staritng HITS Main...");		
 		Date startTime = new Date();
 		double hubs [] = new double[graphSize];
 		double auths [] = new double[graphSize];
 		
-		Util.getInstance().logIfDebug("Initializing...");
+		logger.info("Initializing...");
 		for (int i = 0; i < graphSize; i++) {
 			hubs[i] = initialValues;
 			auths[i] = initialValues;
 		}
 		
-		Util.getInstance().logIfDebug("Starting algorithm...");
+		logger.info("Starting algorithm...");
 		for (int ITER = 0; ITER < NUM_ITERS; ITER++) {			
 		    for (int personId = 0; personId < graphSize; personId++) {
 				auths[personId] = 0;//0.15;
@@ -60,12 +63,12 @@ public class HITS {
 				hubs[i] /= norm;
 			}
 			
-	//		Util.getInstance().logIfDebug("Iteration " + (ITER + 1) + " complete.");
+			logger.debug("Iteration " + (ITER + 1) + " complete.");
 		}
 		Date endTime = new Date();
 		double seconds = (endTime.getTime() - startTime.getTime()) / 1000.0;
-		System.out.println("Elapsed time is " + seconds + " seconds.");
-		Util.getInstance().logIfDebug("Done");
+		logger.info("Elapsed time is " + seconds + " seconds.");
+		logger.info("Done");
 		//printTop(auths, hubs);
 		
 		return new HITSResult(Util.getInstance().getTopNIndexes(auths, auths.length), Util.getInstance().getTopNIndexes(hubs, hubs.length), auths, hubs);

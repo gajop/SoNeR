@@ -35,7 +35,8 @@ public class ProcessingController extends AbstractWizardStepController {
 		    		}
 		    	};
 		    	jenaFOAFParser.run();
-
+		    	updateProgress(100, 100);
+		    	
 		    	try {
 			    	updateMessage("Executing SQL scripts (this can take a while): Purify URIs");
 			    	executeSql("sql/purify_uri.sql");
@@ -52,7 +53,7 @@ public class ProcessingController extends AbstractWizardStepController {
 		    			    	
 		    	addOutput("People: " + DBConnector.getInstance().getPeopleSize());
 		    	addOutput("Known relationships: " + DBConnector.getInstance().getKnownPeopleSize());
-		    	addOutput("Synonym size: " + DBConnector.getInstance().getSynonymSize());
+		    	addOutput("Synonym size: " + DBConnector.getInstance().getSynonymSize());		    	
 		    	updateMessage("Done");		    	
 				return 0;
 		    }
