@@ -47,8 +47,8 @@ public class ProcessingController extends AbstractWizardStepController {
 			    	updateMessage("Executing SQL scripts (this can take a while): Purify attributes");
 			    	DBConnector.getInstance().createPurifiedAttributes();
 			    	done();
-		    	} catch (Throwable ex) {  
-		    		ex.printStackTrace();
+		    	} catch (Throwable t) {  
+		    		logger.error(t);
 		    	}
 		    			    	
 		    	addOutput("People: " + DBConnector.getInstance().getPeopleSize());

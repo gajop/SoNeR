@@ -79,7 +79,7 @@ public class DBPopulator {
 	    	prep.executeBatch();
 		    conn.commit();
 	    } catch (Exception ex) {
-	    	ex.printStackTrace();
+	    	logger.error(ex);
 	    	
 	    	conn.rollback();
 	    	for (int i = 0; i < buffer.size(); i += 2) {

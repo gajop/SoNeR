@@ -60,8 +60,8 @@ public class GexfGraphGenerator {
 		try {
 			people = DBConnector.getInstance().getAllPeople();
 			knows = DBConnector.getInstance().getAllKnownRelationships();
-		} catch (Exception e1) {			
-			e1.printStackTrace();
+		} catch (Exception e) {			
+			logger.error(e);
 			return;
 		}
 		
@@ -79,8 +79,8 @@ public class GexfGraphGenerator {
 		SynonymMerge synMerge = new SynonymMerge(true, false);
 		try {
 			synMerge.applySynonymsToKnownRelationships(knows);
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+			logger.error(e);
 		}
 		
 		for (int i = 0; i < knows.length; i += 2) {
@@ -102,7 +102,7 @@ public class GexfGraphGenerator {
 			graphWriter.writeToStream(gexf, out, "UTF-8");
 			logger.info(outputFile.getAbsolutePath());
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 }

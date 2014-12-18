@@ -67,8 +67,8 @@ public class PageRank {
 				if (name != null) {
 					logger.info("Name: " + name);
 				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
+			} catch (Exception e) {
+				logger.error(e);
 			}
 		}
 	}

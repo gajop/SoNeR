@@ -2,6 +2,9 @@ package jp.ac.iwatepu.soner.gui;
 
 import java.io.IOException;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -15,6 +18,8 @@ public class WizardApplication extends Application {
 	boolean automaticNextStep;
 	Stage primaryStage;
 	
+	static final Logger logger = LogManager.getLogger("Wizard");
+	
 	public static WizardApplication getInstance() { 
 		return instance;
 	}
@@ -25,9 +30,9 @@ public class WizardApplication extends Application {
 		content = new Pane();	
 		try {
 			loadFXML("Start.fxml");
-		} catch (IOException e) {
+		} catch (IOException e) {			
+			logger.error(e);
 			System.exit(-1);
-			e.printStackTrace();
 		}
 		Scene scene = new Scene(content);	
 		this.primaryStage = primaryStage;

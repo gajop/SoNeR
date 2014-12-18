@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
@@ -33,6 +36,8 @@ public abstract class AbstractWizardStepController implements Initializable {
 	protected abstract Task<Integer> createTask();
 	protected abstract String nextStepName();
 	
+	static final Logger logger = LogManager.getLogger("Wizard");
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		btnContinue.setOnAction(new EventHandler<ActionEvent>() {			
@@ -41,7 +46,7 @@ public abstract class AbstractWizardStepController implements Initializable {
 				try {
 					loadNextStep();
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.error(e);
 				}
 			}
 		});
@@ -71,7 +76,7 @@ public abstract class AbstractWizardStepController implements Initializable {
 						btnContinue.setDisable(false);
 					}
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.error(e);
 				}
 			}
 		});

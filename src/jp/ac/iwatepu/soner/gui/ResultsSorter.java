@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.Util;
 import jp.ac.iwatepu.soner.ranking.HITSMain;
@@ -23,6 +26,8 @@ public class ResultsSorter {
 	
 	public PageRankMain pageRankMain;
 	public HITSMain hitsMain;
+	
+	static final Logger logger = LogManager.getLogger("Wizard");
 	
 	public ResultsSorter(PageRankMain pageRankMain, HITSMain hitsMain, int displayAmount) {
 		super();
@@ -57,9 +62,9 @@ public class ResultsSorter {
 				personName = personName + " (" + result.getRanks()[index] + ")";
 				resultStr.add(personName);
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				logger.error(e);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.error(e);
 			}			
 		}
 		return resultStr;
@@ -75,9 +80,9 @@ public class ResultsSorter {
 				personName = personName + " (" + result.getHubs()[index] + ")";
 				resultStr.add(personName);
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				logger.error(e);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.error(e);
 			}			
 		}
 		return resultStr;
@@ -92,9 +97,9 @@ public class ResultsSorter {
 				personName = personName + " (" + result.getAuths()[index] + ")";
 				resultStr.add(personName);
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				logger.error(e);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.error(e);
 			}			
 		}
 		return resultStr;

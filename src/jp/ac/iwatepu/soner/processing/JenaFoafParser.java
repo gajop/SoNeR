@@ -41,12 +41,10 @@ public class JenaFoafParser {
 		try {
 			dbPopulator = new DBPopulator();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+			logger.error(e);	
+		}
 	}
 	
 	private String trim(String uri) {
@@ -95,7 +93,7 @@ public class JenaFoafParser {
 				printOWLModel();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 			System.exit(1);
 		}		
 		for (String tag : Util.getInstance().getTags()) {
@@ -121,7 +119,7 @@ public class JenaFoafParser {
 		try {
 			runQuery(query, model, tag);
 		} catch (SQLException e) {				
-			e.printStackTrace();
+			logger.error(e);
 			System.exit(1);
 		}
 	}

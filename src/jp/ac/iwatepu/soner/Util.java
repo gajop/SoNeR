@@ -128,7 +128,6 @@ public class Util {
 			crawlerStartURL = prop.getProperty("crawler_start_url");
 			crawlerMaxPages = Integer.valueOf(prop.getProperty("crawler_max_pages"));
 		} catch (IOException ex) {
-			ex.printStackTrace();
 			throw new RuntimeException(ex);
 		}
 	}

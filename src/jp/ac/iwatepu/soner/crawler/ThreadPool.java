@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 public class ThreadPool {
 
 	private ArrayBlockingQueue<Runnable> taskQueue = null;
 	private List<PoolThread> threads = new ArrayList<PoolThread>();	
 	int busyCount = 0;
-
+	static final Logger logger = LogManager.getLogger("ThreadPool");
+	
 	public ThreadPool(int noOfThreads, int maxNoOfTasks){
 		taskQueue = new ArrayBlockingQueue<Runnable>(maxNoOfTasks);
 
@@ -21,11 +25,11 @@ public class ThreadPool {
 		}
 	}
 
-	public synchronized void execute(Runnable task){
+	public synchronized void execute(Runnable task) {
 		try {
 			this.taskQueue.put(task);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 

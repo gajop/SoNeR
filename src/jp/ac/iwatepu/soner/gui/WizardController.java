@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +19,8 @@ import javafx.scene.control.ToggleButton;
 import jp.ac.iwatepu.soner.Util;
 
 public class WizardController implements Initializable {
+	
+	static final Logger logger = LogManager.getLogger("Wizard");
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -60,7 +65,7 @@ public class WizardController implements Initializable {
 				WizardApplication.getInstance().loadFXML("Ranking.fxml");
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e);
 			System.exit(-1);
 		}
 	}

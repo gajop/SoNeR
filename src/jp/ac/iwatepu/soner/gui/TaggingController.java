@@ -45,8 +45,8 @@ public class TaggingController implements Initializable {
 				PrintWriter pw;
 				try {
 					pw = new PrintWriter(new File("labels.csv"));
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
+				} catch (FileNotFoundException e) {
+					logger.error(e);
 					return;
 				}
 				for (int i = 0; i <= currentIndex; i += 2) {
@@ -59,15 +59,15 @@ public class TaggingController implements Initializable {
 				try {
 					loadNextStep();
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.error(e);
 				}
 			}
 		});
 		
 		try {
 			sameNames = DBConnector.getInstance().getPeopleWithSimilarAttributes();
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+			logger.error(e);
 		}
 		logger.debug("Candidates: " + sameNames.length);	
 		
@@ -75,7 +75,7 @@ public class TaggingController implements Initializable {
 		try {
 			svmTrain.fetch();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 		matches = new boolean[sameNames.length / 2];
 		
