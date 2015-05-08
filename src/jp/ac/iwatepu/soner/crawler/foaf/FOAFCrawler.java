@@ -39,6 +39,8 @@ public class FOAFCrawler {
 	private int MAX_THREADS = 10;
 	private int MAX_TASKS = 20;
 	
+	public enum SEARCH_MODE { DEPTH_FIRST, BREADTH_FIRST };
+	SEARCH_MODE searchMode = SEARCH_MODE.BREADTH_FIRST;
 	static final Logger logger = LogManager.getLogger("FOAFCrawler");
 
 	public static void main(String[] args) {
@@ -121,7 +123,11 @@ public class FOAFCrawler {
 	
 	private synchronized void addFoafLink(String seeAlsoStr) {
 		if (!visited.contains(seeAlsoStr) && !toVisit.contains(seeAlsoStr)) {
-			toVisit.add(seeAlsoStr);
+			if (searchMode == SEARCH_MODE.BREADTH_FIRST) {
+				toVisit.add(seeAlsoStr);	
+			} else {
+				toVisit.add(0, seeAlsoStr);
+			}
 		}
 	}
 

@@ -8,11 +8,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+import jp.ac.iwatepu.soner.crawler.foaf.FOAFCrawler;
+import jp.ac.iwatepu.soner.crawler.foaf.FOAFCrawler.SEARCH_MODE;
+
 public class Util {
 	private static Util instance = new Util();
 	private String inputDirName;
 	private String crawlerStartURL;
 	private int crawlerMaxPages;
+	private FOAFCrawler.SEARCH_MODE crawlerSearchMode;
 	private String dbURL;
 	private String dbUser;
 	private String dbPassword;
@@ -65,6 +69,10 @@ public class Util {
 	public int getCrawlerMaxPages() {
 		return crawlerMaxPages;
 	}
+	
+	public SEARCH_MODE getCrawlerSearchMode() {
+		return crawlerSearchMode;
+	}
 
 	public void setInputDirName(String inputDirName) {
 		this.inputDirName = inputDirName;
@@ -76,6 +84,10 @@ public class Util {
 
 	public void setCrawlerMaxPages(int crawlerMaxPages) {
 		this.crawlerMaxPages = crawlerMaxPages;
+	}
+	
+	public void setCrawlerSearchMode(SEARCH_MODE crawlerSearchMode) {
+		this.crawlerSearchMode = crawlerSearchMode;
 	}
 
 	public void setDbUser(String dbUser) {
@@ -122,6 +134,14 @@ public class Util {
 			dbPassword = prop.getProperty("db_password");
 			crawlerStartURL = prop.getProperty("crawler_start_url");
 			crawlerMaxPages = Integer.valueOf(prop.getProperty("crawler_max_pages"));
+			String crawlerSearchModeStr = prop.getProperty("crawler_search_mode");
+			if (crawlerSearchModeStr.equals("bfs")) {
+				crawlerSearchMode = SEARCH_MODE.BREADTH_FIRST;
+			} else if (crawlerSearchModeStr.equals("dfs")) {
+				crawlerSearchMode = SEARCH_MODE.DEPTH_FIRST;
+			} else {
+				throw new RuntimeException("Crawler search mode is invalid/lacking.");
+			}
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}

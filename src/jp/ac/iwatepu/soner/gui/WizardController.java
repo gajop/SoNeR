@@ -17,6 +17,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import jp.ac.iwatepu.soner.Util;
+import jp.ac.iwatepu.soner.crawler.foaf.FOAFCrawler.SEARCH_MODE;
 
 public class WizardController implements Initializable {
 	
@@ -47,6 +48,8 @@ public class WizardController implements Initializable {
 	private ComboBox<String> cmbStartingStep;
 	@FXML
 	private CheckBox cbAutomaticNextStep;
+	@FXML
+	private ComboBox<String> cmbCrawlingSearchMode;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -73,9 +76,17 @@ public class WizardController implements Initializable {
 		Util.getInstance().setDbDriver(tfDatabaseDriver.getText());
 		WizardApplication.getInstance().setAutomaticNextStep(cbAutomaticNextStep.isSelected());
 		
+		String crawlingSearchMode = cmbCrawlingSearchMode.getValue();
+		if (crawlingSearchMode.equals("Breadth first")) {
+			Util.getInstance().setCrawlerSearchMode(SEARCH_MODE.BREADTH_FIRST);
+		} else if (crawlingSearchMode.equals("Depth first")) {
+			Util.getInstance().setCrawlerSearchMode(SEARCH_MODE.DEPTH_FIRST);
+		} else {
+			return;
+		}
 		try {
 			String startStep = cmbStartingStep.getValue();
-			if (startStep == null || startStep.equals("Downloading")) {
+			if (startStep.equals("Downloading")) {
 				WizardApplication.getInstance().loadFXML("Crawling.fxml");
 			} else if (startStep.equals("Processing")) {
 				WizardApplication.getInstance().loadFXML("Processing.fxml");
@@ -83,6 +94,8 @@ public class WizardController implements Initializable {
 				WizardApplication.getInstance().loadFXML("Tagging.fxml");
 			} else if (startStep.equals("Ranking")) {
 				WizardApplication.getInstance().loadFXML("Ranking.fxml");
+			} else {
+				return;
 			}
 		} catch (IOException e) {
 			logger.error(e);

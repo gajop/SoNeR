@@ -38,22 +38,36 @@
                         <Label text="Amount:" />
                         <TextField fx:id="tfAmount" prefHeight="23.0" prefWidth="195.0" text="" GridPane.columnIndex="1" />
                         
-                        <Label text="Download folder:" GridPane.rowIndex="1" />
-                        <TextField fx:id="tfOutputFolder" prefHeight="23.0" prefWidth="110.0" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Crawling search mode" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="cmbCrawlingSearchMode" prefWidth="150.0" promptText="Choose search mode:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <items>
+						        <FXCollections fx:factory="observableArrayList">
+						          <String fx:value="Breadth first" />
+						          <String fx:value="Depth first" />			          
+						        </FXCollections>
+						      </items>
+						      <value>
+							     <String fx:value="Breadth first" />
+							  </value>
+                        </ComboBox>
                         
-                        <Label text="Database URL:" GridPane.rowIndex="2" />
-                        <TextField fx:id="tfDatabaseURL" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Download folder:" GridPane.rowIndex="2" />
+                        <TextField fx:id="tfOutputFolder" prefHeight="23.0" prefWidth="110.0" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        
+                        <Label text="Database URL:" GridPane.rowIndex="3" />
+                        <TextField fx:id="tfDatabaseURL" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                                 
-                        <Label text="Database username:" GridPane.rowIndex="3" />
-                        <TextField fx:id="tfDatabaseUsername" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Database username:" GridPane.rowIndex="4" />
+                        <TextField fx:id="tfDatabaseUsername" text="" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                                                         
-                        <Label text="Database password:" GridPane.rowIndex="4" />
-                        <TextField fx:id="tfDatabasePassword" text="" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label text="Database password:" GridPane.rowIndex="5" />
+                        <TextField fx:id="tfDatabasePassword" text="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                         
-                        <Label text="Database driver" GridPane.rowIndex="5" />
-                        <TextField fx:id="tfDatabaseDriver" text="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label text="Database driver" GridPane.rowIndex="6" />
+                        <TextField fx:id="tfDatabaseDriver" text="" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                         
-                        <ComboBox fx:id="cmbStartingStep" prefWidth="150.0" promptText="Choose initial step:" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                        <Label text="Starting step" GridPane.rowIndex="7" />
+                        <ComboBox fx:id="cmbStartingStep" prefWidth="150.0" promptText="Choose initial step:" GridPane.columnIndex="1" GridPane.rowIndex="7">
                               <items>
 						        <FXCollections fx:factory="observableArrayList">
 						          <String fx:value="Downloading" />
@@ -62,10 +76,13 @@
 						          <String fx:value="Ranking" />						          
 						        </FXCollections>
 						      </items>
+							  <value>
+							     <String fx:value="Downloading" />
+							  </value>
                         </ComboBox>
-                        <Label text="Starting step" GridPane.rowIndex="6" />
-                        <Label text="Automatic next step" GridPane.rowIndex="7" />
-                        <CheckBox fx:id="cbAutomaticNextStep" mnemonicParsing="false" selected="false" text="Enable" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        
+                        <Label text="Automatic next step" GridPane.rowIndex="8" />
+                        <CheckBox fx:id="cbAutomaticNextStep" mnemonicParsing="false" selected="false" text="Enable" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                      </children>
                   </GridPane>
                </children>
