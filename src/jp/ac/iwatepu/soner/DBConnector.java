@@ -31,7 +31,16 @@ public class DBConnector {
 	
 	private void init() throws SQLException, ClassNotFoundException {
 		Class.forName(Util.getInstance().getDbDriver());
-		connectionPath = Util.getInstance().getDbURL() + "?user=" + Util.getInstance().getDbUser() + "&password=" + Util.getInstance().getDbPassword();
+		String user = Util.getInstance().getDbUser();
+		String password = "";
+		if (!user.equals("")) {
+			user = "?user=" + user;
+			password = Util.getInstance().getDbPassword();
+			if (!password.equals("")) {
+				password = "&password=" + password;
+			}
+		}
+		connectionPath = Util.getInstance().getDbURL() + user + password;
 	}
 	
 	public void createTables() throws SQLException {
