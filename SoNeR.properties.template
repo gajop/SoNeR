@@ -1,0 +1,53 @@
+# This file defines the meaning of all properties and provides an initial version
+
+# input_dir: 
+# location where FOAF documents obtained by the crawler will be placed
+# also used in the processing step to parse the files
+input_dir = input
+
+# db_driver:
+# driver to use to connect to a database
+# by default it uses an SQLite database (which is stored in a single file)
+db_driver = org.sqlite.JDBC
+
+# db_url:
+# location of the database
+# by default the database is stored in "soner.db" file
+db_url = jdbc:sqlite:soner.db
+
+# db_user:
+# username for connecting to the database
+# example:
+# db_user = postgres
+# by default it's not specified as SQLite doesn't require authentication
+
+# db_password:
+# password for connecting to the database
+# example: 
+# db_password = root
+# by default it's not specified as SQLite doesn't require authentication
+
+# debug:
+# enable debug mode (controls the amount of information that's printed out)
+# by default it's true (use debug=false to squelch some outupt)
+debug = true
+
+# crawler_start_url:
+# initial URL of the document used for FOAF crawling
+# by default it points to a page in advogato
+# some other examples are listed below
+# crawler_start_url = http://www.boards.ie/vbulletin/foaf.php?u=4
+# crawler_start_url = http://lj.rossia.org/users/tyumen_kender/data/foaf # (a bit slow)
+crawler_start_url = http://www.advogato.org/person/connolly/foaf.rdf#me
+
+# crawler_max_pages:
+# the maximum amount of pages that will be retrieved by the crawler
+# note that the crawler will terminate sooner if there are no more pages that can be visited
+# by default up to 10000 pages will be visited
+crawler_max_pages = 10000
+
+# crawler_search_mode:
+# mode in which the crawler search will be conducted 
+# possible values are "bfs" for Breadth first search and dfs for Depth first search
+# by default bfs is used 
+crawler_search_mode = bfs
