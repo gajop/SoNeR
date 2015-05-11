@@ -2,10 +2,19 @@ package jp.ac.iwatepu.soner.gui;
 
 import java.io.IOException;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.jena.atlas.logging.Log;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import javafx.application.Application;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -45,8 +54,47 @@ public class WizardApplication extends Application {
 		primaryStage.show();
 	}
 
-	public static void main(String[] args) {
-		launch(args);
+	public static void main(String[] args) throws ParseException {
+		// create Options object
+		Options options = new Options();
+
+		// add t option
+		options.addOption("m", true, "module (suppresses GUI)");
+		CommandLineParser parser = new DefaultParser();
+		CommandLine cmd = parser.parse(options, args);
+		
+		// no "m" option, launch the GUI
+		if (!cmd.hasOption("m")) {
+			logger.info("module not specified (no -m argument given), launching GUI");
+			launch(args);
+		}
+		else {
+			String module = cmd.getOptionValue("m");
+			
+			AbstractWizardStepController awsc;
+			if (module.equals("crawler")) {
+				awsc = new CrawlingController();
+			} else if (module.equals("parser")) {
+				awsc = new ProcessingController();
+			} else if (module.equals("ranker")) {
+				awsc = new RankingController();
+			} else {
+				logger.fatal("No valid module specified. Possible options are: crawler, parser, ranker");
+				System.exit(-1);
+				return;
+			}
+			logger.info("Starting " + module);
+			Task<Integer> task = awsc.createTask();
+			task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+
+				@Override
+				public void handle(WorkerStateEvent event) {
+					logger.info("Finished.");
+					System.exit(0);					
+				}
+			});
+			task.run();
+		}		
 	}
 	
 	public FXMLLoader loadFXML(String fxml) throws IOException {

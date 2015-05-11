@@ -196,7 +196,9 @@ public class FOAFCrawler {
 				shared.processedNum++;
 	
 				if (shared.processedNum % 100 == 0) {
-					FOAFCrawler.logger.info("Processed: " + shared.processedNum);
+					int maxPages = Util.getInstance().getCrawlerMaxPages();
+					int progress = shared.processedNum * 100 / maxPages;
+					FOAFCrawler.logger.info("Processed: " + shared.processedNum + "/" + maxPages + " [" + progress +  "%]");
 				}
 			} catch (Exception e) {
 				shared.erroredNum++;						
