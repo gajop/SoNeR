@@ -10,6 +10,11 @@ import jp.ac.iwatepu.soner.ranking.HITSResult;
 import jp.ac.iwatepu.soner.ranking.PageRankMain;
 import jp.ac.iwatepu.soner.ranking.PageRankResult;
 
+/**
+ * Controller for the ranking task
+ * @author gajop
+ *
+ */
 public class RankingController extends AbstractWizardStepController {
 	private PageRankMain pageRankMain;
 	private HITSMain hitsMain;

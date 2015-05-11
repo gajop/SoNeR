@@ -11,6 +11,11 @@ import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.Util;
 import jp.ac.iwatepu.soner.synonym.SynonymMerge;
 
+/**
+ * PageRank main class (runs multiple versions of the PageRank algorithm, with and without synonyms)
+ * @author owl
+ *
+ */
 public class PageRankMain {
 	protected boolean useSynonyms = false;
 	protected boolean withAttributeMatching = false;

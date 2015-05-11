@@ -30,6 +30,11 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 
+/**
+ * FOAF-based crawler. Collects FOAF documents and recursively obtains them based on links within the document.
+ * @author gajop
+ *
+ */
 public class FOAFCrawler {
 	private Set<String> visited = new HashSet<String>();
 	private List<String> toVisit = new LinkedList<String>();

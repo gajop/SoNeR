@@ -25,6 +25,11 @@ import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.ranking.Person;
 import jp.ac.iwatepu.soner.synonym.SynonymMerge;
 
+/**
+ * Generates an output of the current FOAF knows relationships graph in .gexf file format.
+ * @author gajop
+ *
+ */
 public class GexfGraphGenerator {
 	private File outputFile;
 	private static final Logger logger = LogManager.getLogger("GexfGraphGenerator");

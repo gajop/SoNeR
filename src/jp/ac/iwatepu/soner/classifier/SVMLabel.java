@@ -9,13 +9,18 @@ import org.apache.log4j.Logger;
 
 import jp.ac.iwatepu.soner.DBConnector;
 
+/**
+ * CLI application for labeling synonyms. 
+ * @author gajop
+ *
+ */
 public class SVMLabel {
 	private int[] sameNames;
 	private SVMTrain svmTrain;
-	private  boolean [] matches;
+	private boolean [] matches;
 	
 	private Scanner sc;
-	private  String[] tags;
+	private String[] tags;
 	private String[][] values;
 	
 	public enum LabelResult { SAME, DIFFERENT, SKIP, END };

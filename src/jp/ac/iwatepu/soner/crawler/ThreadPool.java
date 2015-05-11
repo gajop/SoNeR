@@ -7,6 +7,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+/**
+ * Simple thread pool implementation
+ * @author gajop
+ *
+ */
 public class ThreadPool {
 
 	private ArrayBlockingQueue<Runnable> taskQueue = null;

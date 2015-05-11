@@ -24,6 +24,11 @@ import javafx.scene.layout.GridPane;
 import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.classifier.SVMTrain;
 
+/**
+ * Controller for the synonym tagging task
+ * @author gajop
+ *
+ */
 public class TaggingController implements Initializable {
 	private static final Logger logger = LogManager.getLogger("TaggingController");
 	

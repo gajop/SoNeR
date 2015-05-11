@@ -1,5 +1,11 @@
 package jp.ac.iwatepu.soner.classifier;
 
+/**
+ * Implementation of the Levenshtein distance (edit distance)
+ * For more details: http://en.wikipedia.org/wiki/Levenshtein_distance 
+ * @author gajop
+ *
+ */
 public class LevenshteinDistance {
 	private static int minimum(int a, int b, int c) {
 		return Math.min(Math.min(a, b), c);

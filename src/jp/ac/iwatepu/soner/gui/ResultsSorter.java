@@ -15,6 +15,11 @@ import jp.ac.iwatepu.soner.ranking.HITSResult;
 import jp.ac.iwatepu.soner.ranking.PageRankMain;
 import jp.ac.iwatepu.soner.ranking.PageRankResult;
 
+/**
+ * Defines sorting of results displayed in the result controller
+ * @author gajop
+ *
+ */
 public class ResultsSorter {
 	private List<PageRankResult> pageRankResults;
 	private List<HITSResult> hitsResults;

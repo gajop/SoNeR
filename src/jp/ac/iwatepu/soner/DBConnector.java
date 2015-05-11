@@ -5,6 +5,11 @@ import java.util.HashSet;
 import jp.ac.iwatepu.soner.ranking.Person;
 import jp.ac.iwatepu.soner.synonym.SamePair;
 
+/**
+ * Singleton class used to connect to a database.
+ * @author gajop
+ *
+ */
 public class DBConnector {
 	private static DBConnector instance;
 	private String connectionPath;

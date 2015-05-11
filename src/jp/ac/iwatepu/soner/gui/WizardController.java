@@ -19,6 +19,11 @@ import javafx.scene.control.ToggleButton;
 import jp.ac.iwatepu.soner.Util;
 import jp.ac.iwatepu.soner.crawler.foaf.FOAFCrawler.SEARCH_MODE;
 
+/**
+ * Controller for the initial step of the wizard (used to configure options).
+ * @author gajop
+ *
+ */
 public class WizardController implements Initializable {
 	
 	private static final Logger logger = LogManager.getLogger("Wizard");

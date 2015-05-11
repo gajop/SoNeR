@@ -1,5 +1,10 @@
 package jp.ac.iwatepu.soner.ranking;
 
+/**
+ * Utility class for holding results of the HITS algorithm (hubs and auths)
+ * @author gajop
+ *
+ */
 public class HITSResult {
 	public int[] authIndexes;
 	public int[] hubIndexes;

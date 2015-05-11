@@ -21,6 +21,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 
+/**
+ * Superclass for all controllers in the application.
+ * @author owl
+ *
+ */
 public abstract class AbstractWizardStepController implements Initializable {
 	protected Task<Integer> task;
 

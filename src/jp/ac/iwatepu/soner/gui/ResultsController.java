@@ -22,6 +22,11 @@ import jp.ac.iwatepu.soner.graph.GexfGraphGenerator;
 import jp.ac.iwatepu.soner.ranking.HITSMain;
 import jp.ac.iwatepu.soner.ranking.PageRankMain;
 
+/**
+ * Controller for the results preview 
+ * @author gajop
+ *
+ */
 public class ResultsController implements Initializable {
 
 	@FXML

@@ -9,6 +9,11 @@ import org.apache.log4j.Logger;
 import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.Util;
 
+/**
+ * PageRank implementation
+ * @author gajop
+ *
+ */
 public class PageRank {
 	private int NUM_ITERS = 200;
 	

@@ -21,6 +21,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * Wizard application (entry point of the program).
+ * Supports both GUI and CLI (with -m option).
+ * @author gajop
+ *
+ */
 public class WizardApplication extends Application {
 	private static WizardApplication instance;
 	private Pane content;

@@ -12,6 +12,11 @@ import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.Util;
 import jp.ac.iwatepu.soner.processing.JenaFoafParser;
 
+/**
+ * Controller for the processing task.
+ * @author gajop
+ *
+ */
 public class ProcessingController extends AbstractWizardStepController {
 
 	@Override

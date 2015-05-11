@@ -17,6 +17,11 @@ import libsvm.svm_node;
 import libsvm.svm_parameter;
 import libsvm.svm_problem;
 
+/**
+ * Trains the SVM based on labeled data.
+ * @author gajop
+ *
+ */
 public class SVMTrain {
 	private String[][] values;
 	private svm_model model;

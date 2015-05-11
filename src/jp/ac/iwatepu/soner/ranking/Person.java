@@ -1,5 +1,10 @@
 package jp.ac.iwatepu.soner.ranking;
 
+/**
+ * Utility class for the minimal representation of a person
+ * @author gajop
+ *
+ */
 public class Person {
 	private int id;
 	private String localURL;

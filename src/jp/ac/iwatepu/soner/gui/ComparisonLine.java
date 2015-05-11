@@ -2,6 +2,11 @@ package jp.ac.iwatepu.soner.gui;
 
 import javafx.beans.property.SimpleStringProperty;
 
+/**
+ * Utility class for representing hubs, auths and page ranks in the result controller
+ * @author gajop
+ *
+ */
 public class ComparisonLine {
 	private final SimpleStringProperty comparisonType = new SimpleStringProperty("");
 	private final SimpleStringProperty pageRankDifference = new SimpleStringProperty("");

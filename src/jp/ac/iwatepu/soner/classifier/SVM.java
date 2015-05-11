@@ -8,6 +8,11 @@ import org.apache.log4j.Logger;
 import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.Util;
 
+/**
+ * SVM wrapper for merging synonym pairs based on trained data.
+ * @author owl
+ *
+ */
 public class SVM {
 	String[] tags = Util.getInstance().getTags();
 

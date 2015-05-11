@@ -4,6 +4,11 @@ import javafx.concurrent.Task;
 import jp.ac.iwatepu.soner.Util;
 import jp.ac.iwatepu.soner.crawler.foaf.FOAFCrawler;
 
+/**
+ * Controller for the crawling task.
+ * @author gajop
+ *
+ */
 public class CrawlingController extends AbstractWizardStepController {
 		
 	@Override	

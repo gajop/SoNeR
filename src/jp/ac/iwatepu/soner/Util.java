@@ -11,6 +11,11 @@ import java.util.Properties;
 import jp.ac.iwatepu.soner.crawler.foaf.FOAFCrawler;
 import jp.ac.iwatepu.soner.crawler.foaf.FOAFCrawler.SEARCH_MODE;
 
+/**
+ * Class which contains project-wide configurations that are read from the properties file.
+ * @author gajop
+ *
+ */
 public class Util {
 	private static Util instance = new Util();
 	private String inputDirName;

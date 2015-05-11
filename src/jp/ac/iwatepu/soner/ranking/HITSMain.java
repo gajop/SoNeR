@@ -11,6 +11,11 @@ import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.Util;
 import jp.ac.iwatepu.soner.synonym.SynonymMerge;
 
+/**
+ * HITS main class (runs multiple versions of the HITS algorithm, with and without synonyms)
+ * @author gajop
+ *
+ */
 public class HITSMain {
 	private boolean useSynonyms = false;
 	private boolean withAttributeMatching = false;

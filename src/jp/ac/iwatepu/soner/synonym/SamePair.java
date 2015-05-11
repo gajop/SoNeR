@@ -1,5 +1,10 @@
 package jp.ac.iwatepu.soner.synonym;
 
+/**
+ * Utility class that represents two synonyms
+ * @author gajop
+ *
+ */
 public class SamePair {
 	public int id1;
 	public int id2;

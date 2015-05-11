@@ -29,6 +29,11 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.util.FileManager;
 
+/**
+ * Parses FOAF files using the Jena library
+ * @author gajop
+ *
+ */
 public class JenaFoafParser {
 	
 	private OntModel model;

@@ -3,6 +3,11 @@ package jp.ac.iwatepu.soner.crawler;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+/**
+ * A thread used in the thread pool.
+ * @author gajop
+ *
+ */
 public class PoolThread extends Thread {
 
 	private ThreadPool threadPool = null;

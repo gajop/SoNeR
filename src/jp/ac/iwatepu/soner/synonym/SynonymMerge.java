@@ -11,6 +11,11 @@ import jp.ac.iwatepu.soner.DBConnector;
 import jp.ac.iwatepu.soner.classifier.SVM;
 import jp.ac.iwatepu.soner.ranking.Person;
 
+/**
+ * Class used to merge synonyms
+ * @author gajop
+ *
+ */
 public class SynonymMerge {
 	private int[] mapping;
 	private Set<Integer> synonymSets [];

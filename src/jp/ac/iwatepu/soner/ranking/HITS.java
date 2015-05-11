@@ -8,6 +8,11 @@ import org.apache.log4j.Logger;
 
 import jp.ac.iwatepu.soner.Util;
 
+/**
+ * HITS algorithm implementation
+ * @author gajop
+ *
+ */
 public class HITS {
 	private int NUM_ITERS = 200;
 	private static final Logger logger = LogManager.getLogger("HITS");
