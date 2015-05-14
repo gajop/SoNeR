@@ -5,8 +5,12 @@ import java.io.IOException;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.MissingArgumentException;
+import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.UnrecognizedOptionException;
 import org.apache.jena.atlas.logging.Log;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -22,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import jp.ac.iwatepu.soner.Util;
 
 /**
  * Wizard application (entry point of the program).
@@ -75,8 +80,34 @@ public class WizardApplication extends Application {
 
 		// add t option
 		options.addOption("m", true, "module (suppresses GUI)");
+		options.addOption("p", true, "properties file override");
+		Option helpOption = new Option("h", "print this message");
+		helpOption.setLongOpt("help");
+		options.addOption(helpOption);
 		CommandLineParser parser = new DefaultParser();
-		CommandLine cmd = parser.parse(options, args);
+		CommandLine cmd;
+		try {
+			cmd = parser.parse(options, args);
+		} catch (UnrecognizedOptionException ex) {
+			System.err.println("No such option: " + ex.getOption());
+			System.exit(-1);
+			return;
+		} catch (MissingArgumentException ex) {
+			System.err.println("Missing argument for option: " + ex.getOption());
+			System.exit(-1);
+			return;
+		}
+		
+		
+		if (cmd.hasOption("help")) {
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp("ant", options );
+			System.exit(0);
+		}
+		
+		if (cmd.hasOption("p")) {
+			Util.externalProperties = cmd.getOptionValue("p");
+		}
 		
 		// no "m" option, launch the GUI
 		if (!cmd.hasOption("m")) {

@@ -26,7 +26,8 @@ public class Util {
 	private String dbURL;
 	private String dbUser;
 	private String dbPassword;
-	private String dbDriver;	
+	private String dbDriver;
+	public static String externalProperties;
 	private String [] tags = { 
 			"familyName",
 			"name",
@@ -133,7 +134,9 @@ public class Util {
 		try {
 			InputStream in = this.getClass().getResourceAsStream("SoNeR.properties");
 			prop.load(in);
-			//prop.load(new FileInputStream("SoNeR.properties"));
+			if (externalProperties != null) {
+				prop.load(new FileInputStream(externalProperties));
+			}
 	
 			inputDirName = prop.getProperty("input_dir");
 			dbDriver = prop.getProperty("db_driver");
