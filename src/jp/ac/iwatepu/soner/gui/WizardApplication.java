@@ -89,11 +89,11 @@ public class WizardApplication extends Application {
 		try {
 			cmd = parser.parse(options, args);
 		} catch (UnrecognizedOptionException ex) {
-			System.err.println("No such option: " + ex.getOption());
+			logger.error("No such option: " + ex.getOption());
 			System.exit(-1);
 			return;
 		} catch (MissingArgumentException ex) {
-			System.err.println("Missing argument for option: " + ex.getOption());
+			logger.error("Missing argument for option: " + ex.getOption());
 			System.exit(-1);
 			return;
 		}
