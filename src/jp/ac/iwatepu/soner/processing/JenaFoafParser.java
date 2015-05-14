@@ -213,7 +213,6 @@ public class JenaFoafParser {
 	}
 	
 	public void run() throws Exception {
-		System.out.println("START!");
 		ArrayList<File> allFiles = new ArrayList<File>();
 							
 		allFiles.addAll(Arrays.asList(new File(Util.getInstance().getInputDirName()).listFiles()));

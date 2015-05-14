@@ -1,4 +1,3 @@
-BEGIN;
 drop table if exists peoplesynonym_modified;
 create table peoplesynonym_modified ( personid integer, synonymid integer );
 INSERT INTO peoplesynonym_modified
@@ -17,4 +16,3 @@ WHERE
         (NOT first_person_uri.validURL)
     ) AND
   second_person_uri.localurl = peoplesynonym.synonym;
-  END

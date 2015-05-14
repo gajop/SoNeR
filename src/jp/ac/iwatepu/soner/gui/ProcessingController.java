@@ -27,6 +27,12 @@ public class ProcessingController extends AbstractWizardStepController {
 	@Override
 	protected Task<Integer> createTask() {
 		Task<Integer> task = new Task<Integer>() {
+			@Override
+			protected void updateMessage(String message) {
+				logger.info(message);
+				super.updateMessage(message);
+			}
+			
 		    @Override protected Integer call() throws Exception {
 		    	updateMessage("Loading files into memory...");
 		    	JenaFoafParser jenaFOAFParser = new JenaFoafParser() {
@@ -42,22 +48,29 @@ public class ProcessingController extends AbstractWizardStepController {
 		    	updateProgress(100, 100);
 		    	
 		    	try {
-			    	updateMessage("Executing SQL scripts (this can take a while): Purify URIs");
-			    	executeSql("sql/purify_uri.sql");
+			    	if (Util.getInstance().getDbDriver().equals("org.sqlite.JDBC")) {
+			    		updateMessage("Executing SQL scripts (this can take a while): Purify URIs");
+			    		executeSql("sql/purify_uri_sqlite.sql");			    		
+			    	} else {
+			    		executeSql("sql/purify_uri.sql");
+			    	}
 			    	updateMessage("Executing SQL scripts (this can take a while): Cleanup Known IDs");
 			    	executeSql("sql/known_ids.sql");			    	
 			    	updateMessage("Executing SQL scripts (this can take a while): Synonym script");
 			    	executeSql("sql/synonym_script.sql");
 			    	updateMessage("Executing SQL scripts (this can take a while): Purify attributes");
 			    	DBConnector.getInstance().createPurifiedAttributes();
+			    	updateMessage("Executing SQL scripts: Finished");
 			    	done();
-		    	} catch (Throwable t) {  
+			    	addOutput("People: " + DBConnector.getInstance().getPeopleSize());
+			    	addOutput("Known relationships: " + DBConnector.getInstance().getKnownPeopleSize());
+			    	addOutput("Synonym size: " + DBConnector.getInstance().getSynonymSize());
+		    	} catch (Throwable t) { 
 		    		logger.error(t);
+		    		t.printStackTrace();
+		    		System.exit(-1);
 		    	}
-		    			    	
-		    	addOutput("People: " + DBConnector.getInstance().getPeopleSize());
-		    	addOutput("Known relationships: " + DBConnector.getInstance().getKnownPeopleSize());
-		    	addOutput("Synonym size: " + DBConnector.getInstance().getSynonymSize());		    	
+
 		    	updateMessage("Done");		    	
 				return 0;
 		    }
@@ -84,9 +97,22 @@ public class ProcessingController extends AbstractWizardStepController {
 	    SqlExecuter executer = new SqlExecuter();
 	    executer.setSrc(new File(sqlFilePath));
 	    executer.setDriver(Util.getInstance().getDbDriver());
-	    executer.setPassword(Util.getInstance().getDbPassword());
-	    executer.setUserid(Util.getInstance().getDbUser());
-	    executer.setUrl(Util.getInstance().getDbURL() + "?user=" + Util.getInstance().getDbUser() + "&password=" + Util.getInstance().getDbPassword());
+
+		String user = Util.getInstance().getDbUser();
+		String password = "";
+		if (!user.equals("")) {
+			user = "?user=" + user;
+			password = Util.getInstance().getDbPassword();
+			if (!password.equals("")) {
+				password = "&password=" + password;
+			}
+		}
+		String connectionPath = Util.getInstance().getDbURL() + user + password;
+		
+		executer.setUserid(Util.getInstance().getDbUser());
+		executer.setPassword(Util.getInstance().getDbPassword());
+	    executer.setUrl(connectionPath);
+	    executer.setEscapeProcessing(false);
 	    executer.execute();
 	}
 

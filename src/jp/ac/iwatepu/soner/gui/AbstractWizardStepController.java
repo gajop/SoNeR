@@ -91,11 +91,22 @@ public abstract class AbstractWizardStepController implements Initializable {
 			});
 		}
 		
-		Thread t = new Thread(task);
+		Thread t = new Thread() {
+			@Override
+			public void run() {
+				try {
+					task.run();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					System.exit(-1);
+				}
+			}
+		};
 		t.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {			
 			@Override
 			public void uncaughtException(Thread t, Throwable e) {
 				e.printStackTrace();
+				System.exit(-1);
 			}
 		});
 		t.start();
@@ -107,6 +118,10 @@ public abstract class AbstractWizardStepController implements Initializable {
 	}
 	
 	protected void addOutput(String line) {
-		taOutput.appendText(line + "\n");
+		if (taOutput != null) {
+			taOutput.appendText(line + "\n");
+		} else {
+			logger.info(line);
+		}
 	}
 }
