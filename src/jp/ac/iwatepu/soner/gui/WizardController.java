@@ -67,6 +67,9 @@ public class WizardController implements Initializable {
 		tfDatabaseDriver.setText(Util.getInstance().getDbDriver());
 		
 		cmbStartingStep.getSelectionModel().select(0);
+		if (Util.getInstance().getCrawlerSearchMode() == SEARCH_MODE.DEPTH_FIRST) {
+			cmbCrawlingSearchMode.getSelectionModel().select(1);
+		}
 		spAdvanced.visibleProperty().bind(btnAdvanced.selectedProperty());		
 	}
 	

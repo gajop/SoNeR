@@ -9,6 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import jp.ac.iwatepu.soner.crawler.foaf.FOAFCrawler;
 import jp.ac.iwatepu.soner.crawler.foaf.FOAFCrawler.SEARCH_MODE;
 
@@ -18,7 +21,11 @@ import jp.ac.iwatepu.soner.crawler.foaf.FOAFCrawler.SEARCH_MODE;
  *
  */
 public class Util {
-	private static Util instance = new Util();
+	
+	static final Logger logger = LogManager.getLogger("Util");
+	
+	
+	private static Util instance;
 	private String inputDirName;
 	private String crawlerStartURL;
 	private int crawlerMaxPages;
@@ -126,6 +133,9 @@ public class Util {
 	}
 	
 	public static Util getInstance() {
+		if (instance == null) {
+			instance = new Util();
+		}
 		return instance;
 	}
 	
@@ -136,6 +146,7 @@ public class Util {
 			prop.load(in);
 			if (externalProperties != null) {
 				prop.load(new FileInputStream(externalProperties));
+				logger.info("Loading external file: " + externalProperties);
 			}
 	
 			inputDirName = prop.getProperty("input_dir");
