@@ -44,7 +44,7 @@ public class ProcessingController extends AbstractWizardStepController {
 						updateProgress(parsedDocuments, totalDocuments);
 		    		}
 		    	};
-		    	//jenaFOAFParser.run();
+		    	jenaFOAFParser.run();
 		    	updateProgress(100, 100);
 		    	
 		    	try {
