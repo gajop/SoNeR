@@ -1,6 +1,11 @@
 package jp.ac.iwatepu.soner.gui;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -93,10 +98,25 @@ public class ProcessingController extends AbstractWizardStepController {
 	            setTaskName("sql");
 	        }
 	    }
-
-	    SqlExecuter executer = new SqlExecuter();
 	    ClassLoader classLoader = getClass().getClassLoader();
-	    executer.setSrc(new File(classLoader.getResource(sqlFilePath).getFile()));
+	    InputStream in = classLoader.getResourceAsStream(sqlFilePath); 
+	    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+	    final File tempFile;
+	    try {
+	    	tempFile = File.createTempFile("__temp", ".sql");
+	    	PrintWriter pw = new PrintWriter(tempFile);
+	        for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+	        	pw.write(line + "\n");
+	        }
+	        pw.close();
+	    } catch (Exception ex) {
+	    	return;
+	    }
+        
+	    
+	    SqlExecuter executer = new SqlExecuter();
+	    
+	    executer.setSrc(tempFile);
 	    executer.setDriver(Util.getInstance().getDbDriver());
 
 		String user = Util.getInstance().getDbUser();
@@ -115,6 +135,7 @@ public class ProcessingController extends AbstractWizardStepController {
 	    executer.setUrl(connectionPath);
 	    executer.setEscapeProcessing(false);
 	    executer.execute();
+	    tempFile.delete();
 	}
 
 
