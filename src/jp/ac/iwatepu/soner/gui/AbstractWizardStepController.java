@@ -1,6 +1,7 @@
 package jp.ac.iwatepu.soner.gui;
 
 import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -45,48 +46,59 @@ public abstract class AbstractWizardStepController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		btnContinue.setOnAction(new EventHandler<ActionEvent>() {			
-			@Override
-			public void handle(ActionEvent event) {
-				try {
-					loadNextStep();
-				} catch (IOException e) {
-					logger.error(e);
+		if (btnContinue != null) {
+			btnContinue.setOnAction(new EventHandler<ActionEvent>() {			
+				@Override
+				public void handle(ActionEvent event) {
+					try {
+						loadNextStep();
+					} catch (IOException e) {
+						logger.error(e);
+					}
 				}
-			}
-		});
+			});
+		}
 		
 		task = createTask();
 		
-		// bind the progress bar and label to the task
-		pbProgress.progressProperty().bind(task.progressProperty());
-		task.messageProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable,
-					String oldValue, String newValue) {
-				lblProgress.setText(newValue);
-			}
-
-		});
-		
-		// bind the download completion to the next step
-		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {			
-			@Override
-			public void handle(WorkerStateEvent event) {
-				try {
-					if (WizardApplication.getInstance().isAutomaticNextStep()) {
-						loadNextStep();
-					} else {
-						btnContinue.setDisable(false);
-					}
-				} catch (IOException e) {
-					logger.error(e);
+		if (pbProgress != null) {
+			// bind the progress bar and label to the task
+			pbProgress.progressProperty().bind(task.progressProperty());
+			task.messageProperty().addListener(new ChangeListener<String>() {
+	
+				@Override
+				public void changed(ObservableValue<? extends String> observable,
+						String oldValue, String newValue) {
+					lblProgress.setText(newValue);
 				}
+	
+			});
+			
+			// bind the download completion to the next step
+			task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {			
+				@Override
+				public void handle(WorkerStateEvent event) {
+					try {
+						if (WizardApplication.getInstance().isAutomaticNextStep()) {
+							loadNextStep();
+						} else {
+							btnContinue.setDisable(false);
+						}
+					} catch (IOException e) {
+						logger.error(e);
+					}
+				}
+			});
+		}
+		
+		Thread t = new Thread(task);
+		t.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {			
+			@Override
+			public void uncaughtException(Thread t, Throwable e) {
+				e.printStackTrace();
 			}
 		});
-		
-		new Thread(task).start();
+		t.start();
 	}
 	
 	protected FXMLLoader loadNextStep() throws IOException {

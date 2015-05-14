@@ -136,7 +136,13 @@ public class Util {
 			dbDriver = prop.getProperty("db_driver");
 			dbURL = prop.getProperty("db_url");
 			dbUser = prop.getProperty("db_user");
+			if (dbUser == null) {
+				dbUser = "";
+			}
 			dbPassword = prop.getProperty("db_password");
+			if (dbPassword == null) {
+				dbPassword = "";
+			}
 			crawlerStartURL = prop.getProperty("crawler_start_url");
 			crawlerMaxPages = Integer.valueOf(prop.getProperty("crawler_max_pages"));
 			String crawlerSearchModeStr = prop.getProperty("crawler_search_mode");
