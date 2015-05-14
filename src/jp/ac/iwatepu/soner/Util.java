@@ -2,6 +2,7 @@ package jp.ac.iwatepu.soner;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -130,7 +131,9 @@ public class Util {
 	private void init() {
 		Properties prop = new Properties();			
 		try {
-			prop.load(new FileInputStream("SoNeR.properties"));
+			InputStream in = this.getClass().getResourceAsStream("SoNeR.properties");
+			prop.load(in);
+			//prop.load(new FileInputStream("SoNeR.properties"));
 	
 			inputDirName = prop.getProperty("input_dir");
 			dbDriver = prop.getProperty("db_driver");
