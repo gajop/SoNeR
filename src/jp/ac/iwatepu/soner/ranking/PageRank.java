@@ -73,6 +73,7 @@ public class PageRank {
 					logger.info("Name: " + name);
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				logger.error(e);
 			}
 		}

@@ -85,7 +85,7 @@ public class FOAFCrawler {
 		
 		ThreadPool threadPool = new ThreadPool(MAX_THREADS, MAX_TASKS);
 		
-		while (!toVisit.isEmpty() && visited.size() < Util.getInstance().getCrawlerMaxPages()) {
+		while (!toVisit.isEmpty() && visited.size() - erroredNum < Util.getInstance().getCrawlerMaxPages()) {
 			String top = toVisit.get(0);
 			toVisit.remove(0);
 			visited.add(top);
@@ -119,6 +119,7 @@ public class FOAFCrawler {
 			} catch (Exception e) {
 				logger.warn("Error parsing: " + fileName);
 				logger.warn(e);
+				erroredNum++;
 			}			
 		}
 		if (outputDir.list().length > 0) {
@@ -194,16 +195,16 @@ public class FOAFCrawler {
 			try {
 				processPage(this.foafPageURL, this.writeToFile);			
 				if (this.load) {
-					shared.loadedPage(shared.visited.size());
+					shared.loadedPage(shared.processedNum - shared.erroredNum);
 				} else {
-					shared.downloadedPage(shared.visited.size());
+					shared.downloadedPage(shared.processedNum - shared.erroredNum);
 				}
 				shared.processedNum++;
 	
 				if (shared.processedNum % 100 == 0) {
 					int maxPages = Util.getInstance().getCrawlerMaxPages();
-					int progress = shared.processedNum * 100 / maxPages;
-					FOAFCrawler.logger.info("Processed: " + shared.processedNum + "/" + maxPages + " [" + progress +  "%]");
+					int progress = (shared.processedNum - shared.erroredNum) * 100 / maxPages;
+					FOAFCrawler.logger.info("Processed: " + (shared.processedNum - shared.erroredNum) + "/" + maxPages + " [" + progress +  "%]");
 				}
 			} catch (Exception e) {
 				shared.erroredNum++;						

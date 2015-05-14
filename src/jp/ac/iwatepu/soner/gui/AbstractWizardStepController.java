@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
@@ -117,9 +118,14 @@ public abstract class AbstractWizardStepController implements Initializable {
 		return loader;
 	}
 	
-	protected void addOutput(String line) {
+	protected void addOutput(final String line) {
 		if (taOutput != null) {
-			taOutput.appendText(line + "\n");
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					taOutput.appendText(line + "\n");	
+				}
+			});
 		} else {
 			logger.info(line);
 		}

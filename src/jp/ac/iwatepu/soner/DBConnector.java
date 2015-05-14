@@ -223,7 +223,7 @@ public class DBConnector {
 		Connection conn = getConnection();
 		
 		PreparedStatement prep = conn.prepareStatement(
-	      "select name from name inner join peopleuri_modified on name.localUrl = peopleuri_modified.localUrl and " +
+	      "select value from name inner join peopleuri_modified on name.localUrl = peopleuri_modified.localUrl and " +
 	      "name.context = peopleuri_modified.context where personid = (?)");
 		prep.setInt(1, id);
 		
