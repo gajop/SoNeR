@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Soner</title>
+    <title>SoNeR</title>
   </head>
 
   <body>
@@ -18,7 +18,7 @@
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/gajop/SoNeR">View on GitHub</a>
 
-          <h1 id="project_title">Soner</h1>
+          <h1 id="project_title">SoNeR</h1>
           <h2 id="project_tagline">Social Network Ranker</h2>
 
             <section id="downloads">
@@ -41,13 +41,19 @@
 <ul>
 <li>Semantic Web crawling</li>
 <li>FOAF processing</li>
-<li>Identity synonym detection based on an SVM classifier trained on manually labeled data</li>
-<li>Identity synonym merge</li>
-<li>Ranking based on PageRank and HITS algorithms</li>
+<li>Identity synonym detection and merging based on an SVM classifier trained on manually labelled data</li>
+<li>User ranking based on PageRank and HITS algorithms</li>
 </ul>
 
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
+In order to use this software a Java version capable of supporting JavaFX is required (Java 1.8+). 
+Any additional installation configuration (such as an existing database system) isn't mandatory. 
+
+<a id="quickstart" class="anchor" href="#quickstart" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick start</h3>
 <p>SoNeR comes with a wizard application that combines the above mentioned functionality.
-The initial step of the wizard is shown below:
+To start using it simply run the .jar provided on Github.
+You will be greeted by the following page:
+
 <img src="https://dl.dropboxusercontent.com/u/29384665/SoNeR_images/start.png" alt="Wizard initial step"></p>
 
 <p>The application supports the following configuration:</p>
@@ -56,13 +62,47 @@ The initial step of the wizard is shown below:
 <li>Download document output directory</li>
 <li>Database settings</li>
 <li>Initial page of crawling and download amount</li>
+<li>Crawling method (breadth first or depth-first)</li>
 </ul>
 
-<p>The application configuration is accessible via the Advanced button:
+<p>To try the application out, simply press "Start" as the default settings should work. 
+Alternatively one can specify a different initial URL.</p>
+
+
+<a id="advanced" class="anchor" href="#advanced" aria-hidden="true"><span class="octicon octicon-link"></span></a>Advanced</h3>
+<p>The advanced application configuration is accessible via the Advanced button in the GUI:
 <img src="https://dl.dropboxusercontent.com/u/29384665/SoNeR_images/start_advanced.png" alt="Advanced wizard configuration"></p>
+<p>The following values are configurable:</p>
+<ul>
+<li>Amount - maximum number of pages that will be downloaded.</li>
+<li>Download folder - folder used to keep and load downloaded pages. It is possible to manually download FOAF files, put them in this folder and skip the crawling step entirely.</li>
+<li>Database URL - path to the database. For SQLite databases (default) this should point to a file.</li>
+<li>Database username - used to login to the database (should have full CRUD rights on the database). Not required for SQLite databases.</li>
+<li>Database password - password for the database user.</li>
+<li>Database driver - Java driver used to connect to the database. The supported values are: <i>org.sqlite.JDBC</i> for SQLite, <i>org.postgresql.Driver</i> for PostgreSQL and <i>com.mysql.jdbc.Driver</i> for MySQL.</li>
+<li>Starting step - defines the initial step of the wizard. By default it starts with the Download step, but it's possible to skip it and start at an arbitrary task.</li>
+<li>Automatic next step - can be enabled to automatically proceed to the next setup. This is disabled by default so output of each step can be viewed.</li>
+</ul>
+<p>
+For details regarding the setup please consult the <a href="https://github.com/gajop/SoNeR/blob/master/SoNeR.properties.template">SoNeR.properties.template file</a>.
+It is possible to use a properties file to load desired settings by specifying the -p command line option.
+</p>
+
+<p>SoNeR supports the following command line options:</p>
+<ul>
+<li>-h, --help   print this message</li>
+<li>-m <arg>    module (suppresses GUI)</li>
+<li>-p <arg>    properties file override</li>
+</ul>
+<p>The module argument specifies one of the three modules that can be processed automatically, and accepts the values: crawler, parser and ranker.</p>
+
+<a id="development" class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h3>
+<p>In order to compile the source the release software Maven is required.<p>
+<p>The dependencies of the project as well as the build configurations can be seen in <a href="">pom.xml</a>, but no user intervention is necessary as Maven should automatically download the required packages</p>
+<p>In order to compile and package software as an executable .jar with the required libraries packaged in (the same manner as it was released), the Maven <i>install</i> option should be used, which should generate a <i>SoNeR-1.1-jar-with-dependencies.jar</i> file in the <i>target</i> folder of the project.</p>
 
 <h3><a id="code-documentation" class="anchor" href="#code-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code documentation</h3>
-<p><a href="javadoc/index.html">Code documentation</a> is also provided.</p>
+<p><a href="javadoc/index.html">Java code documentation</a> is also provided.</p>
 
 <h3>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
