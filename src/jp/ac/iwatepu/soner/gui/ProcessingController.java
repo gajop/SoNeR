@@ -44,20 +44,20 @@ public class ProcessingController extends AbstractWizardStepController {
 						updateProgress(parsedDocuments, totalDocuments);
 		    		}
 		    	};
-		    	jenaFOAFParser.run();
+		    	//jenaFOAFParser.run();
 		    	updateProgress(100, 100);
 		    	
 		    	try {
 			    	if (Util.getInstance().getDbDriver().equals("org.sqlite.JDBC")) {
 			    		updateMessage("Executing SQL scripts (this can take a while): Purify URIs");
-			    		executeSql("sql/purify_uri_sqlite.sql");			    		
+			    		executeSql("main/resources/sql/purify_uri_sqlite.sql");			    		
 			    	} else {
-			    		executeSql("sql/purify_uri.sql");
+			    		executeSql("main/resources/sql/purify_uri.sql");
 			    	}
 			    	updateMessage("Executing SQL scripts (this can take a while): Cleanup Known IDs");
-			    	executeSql("sql/known_ids.sql");			    	
+			    	executeSql("main/resources/sql/known_ids.sql");			    	
 			    	updateMessage("Executing SQL scripts (this can take a while): Synonym script");
-			    	executeSql("sql/synonym_script.sql");
+			    	executeSql("main/resources/sql/synonym_script.sql");
 			    	updateMessage("Executing SQL scripts (this can take a while): Purify attributes");
 			    	DBConnector.getInstance().createPurifiedAttributes();
 			    	updateMessage("Executing SQL scripts: Finished");
@@ -95,7 +95,8 @@ public class ProcessingController extends AbstractWizardStepController {
 	    }
 
 	    SqlExecuter executer = new SqlExecuter();
-	    executer.setSrc(new File(sqlFilePath));
+	    ClassLoader classLoader = getClass().getClassLoader();
+	    executer.setSrc(new File(classLoader.getResource(sqlFilePath).getFile()));
 	    executer.setDriver(Util.getInstance().getDbDriver());
 
 		String user = Util.getInstance().getDbUser();
