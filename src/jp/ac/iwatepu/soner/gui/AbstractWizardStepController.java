@@ -118,6 +118,7 @@ public abstract class AbstractWizardStepController implements Initializable {
 		return loader;
 	}
 	
+	
 	protected void addOutput(final String line) {
 		if (taOutput != null) {
 			Platform.runLater(new Runnable() {
@@ -130,4 +131,6 @@ public abstract class AbstractWizardStepController implements Initializable {
 			logger.info(line);
 		}
 	}
+	
+	
 }
