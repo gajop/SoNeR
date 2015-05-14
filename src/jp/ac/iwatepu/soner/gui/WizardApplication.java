@@ -101,7 +101,7 @@ public class WizardApplication extends Application {
 		
 		if (cmd.hasOption("help")) {
 			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("ant", options );
+			formatter.printHelp("SoNeR", options );
 			System.exit(0);
 		}
 		

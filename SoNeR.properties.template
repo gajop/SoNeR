@@ -8,11 +8,13 @@ input_dir = input
 # db_driver:
 # driver to use to connect to a database
 # by default it uses an SQLite database (which is stored in a single file)
+# for Postgres: org.postgresql.Driver
 db_driver = org.sqlite.JDBC
 
 # db_url:
 # location of the database
 # by default the database is stored in "soner.db" file
+# alternative example for PostgreSQL db_url=jdbc:postgresql://localhost/foaf
 db_url = jdbc:sqlite:soner.db
 
 # db_user:
